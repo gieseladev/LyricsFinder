@@ -11,4 +11,4 @@ def extract_lyrics(url):
 
 def search_lyrics(query, *, google_api_key):
     """Search for lyrics."""
-    return LyricsManager.search_lyrics(query, google_api_key)
+    return LyricsManager.search_lyrics(query, google_api_key=google_api_key)
