@@ -36,6 +36,9 @@ class LyricsManager:
                 except exceptions.NoLyrics:
                     log.warn("{} didn't find any lyrics at {}".format(extractor, url))
                     continue
+                except Exception:
+                    log.exception("Something went wrong when {} handled {}".format(extractor, url_data))
+                    continue
 
                 if lyrics:
                     lyrics.origin = LyricsOrigin(url, extractor.name, extractor.url)

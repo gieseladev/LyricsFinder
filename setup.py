@@ -1,3 +1,5 @@
+"""Setup for this stuff."""
+
 from codecs import open
 from os import path
 
@@ -11,17 +13,17 @@ with open(path.join(here, "README.rst"), encoding="utf-8") as f:
 
 setup(
     name="lyricsfinder",
-    version="0.0.2",
+    version="0.1.1",
     description="Retrieve lyrics for a song",
     long_description=long_description,
     url="https://github.com/siku2/LyricsFinder",
     author="siku2",
     author_email="siku2@outlook.com",
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 2 - Beta",
 
         "Intended Audience :: Developers",
-        "Topic :: Software Development :: Build Tools",
+        "Topic :: Multimedia :: Sound/Audio",
 
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.6"
