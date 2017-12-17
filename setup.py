@@ -28,5 +28,5 @@ setup(
     ],
     keywords="lyrics",
     packages=find_packages(exclude=["docs", "tests"]),
-    install_requires=["beautifulsoup4"]
+    install_requires=["beautifulsoup4", "requests"]
 )
