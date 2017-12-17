@@ -1,16 +1,16 @@
 language: python
 python:
-  - "3.6"
-  - "nightly"
+- '3.6'
+- nightly
 install:
-  - pip install -r requirements.txt
-  - pip install -e .
+- pip install -r requirements.txt
+- pip install -e .
 script:
-  - pytest
+- pytest
 deploy:
   provider: pypi
-  user: "siku2"
+  user: siku2
   password:
-    secure: "YZHHN2IRJMiKlpx0ruvl66zTlec6PkcsZ8Opfz0QToMTZ+2lwN2kbudqFkKd75+TnDyz8PSVtUw0+psjttGaWigy5+onttBcvD3O3To5+DDdnDS57G+Kh8M6jQjGNj5HKd2oAfFT1d0cgZl7OUF6X+A5G6ksGxPUZCxoKyMSKiU6M8VtHYoSAlnil2CDadjkGMogC0H78KhVJeTihjdkxcGGqmryLn891beUtK+FH8r1HiyQttGbhTMGLvbwipCYnDbpVKipSXcitTUHq0Pgq5BysoxEuu7AXYkGEvXirGWazEh/yyUFMZZPa11SuSIJpFG844v/L4gFy/z4a17qUIdBHruoASMB4fzEHCM01WuAHdR94IgbvJB77k8gRD5gwwY6Uag717Bz7YlY4tm0sHOof2reh59ylZ3fmfsEJnVgKMIm5ASinJB+j/K2wTxhXNeZHLjv77yHongrNRDZxA+Vth8QLaqaa3GReARFzdZnPJ2g8nneRwpih/MFlFo8WXI38XDmCheBUZ0SCfqLB3wYVjz9pOFkgjuy7+DUDNbV8rN6dgEmc42+bOfycta2PHigVfr++y36EXc0+pgldRfTkFUPSL6whcV4ClmsIGd6xRTNjOH4N4Bv0Vox2MdxBEOTHTPVj3ZuvMWEYvaYnV4slf/REEH9Au+BoXeqQyA="
+    secure: cNBa4I3URv9j4bmTVEOy5EyRFtMVeLGR0O2W3N2Td1kps0Y/nFsJWQ5dXWWz0xwYZGT+v477xR44DNJR7PpusnlItk21OhHCFK4H1Akhr0OaU9vVHY0mhnhP9bOjKrKkuV3OBl8ug7d4duU+Iys0l1b677EPSG5IgByZEjrENAcdYzvlRGBFIIZ39nERAN5ped6VkoNxCGby3qDPXBy5Cigta8qfYSR+AqlDxRQ7xHKLQ2iLLT6ffT4abIOXLvwimsfFOKcTSj1pCCvlyZpBRHloWuXYqO4OSjn72+pe87sd85q3o7ggApSXkOzZelyI1zNu9z2xpgmcy/p5isQceSCjUBd86ROzL2ZzAongup70NRBFoDfz0Yn4tAIQXCIJfo1ssOp9VhQXwWRExBE9wbA8AqfOkZwP8NI4xfqnowCkmEsWX9zk9GBvTxdFIDeCjin3lJc7unkHxOOlaJIKCaoXt/sY2FGMbdIWpI088oxaL//Yvl9lt6VAaFwbhn1ww6xavnC0SukIzeoE/ub9b6LN27Vntn4v6U/bcEvVd7Xs/BcdUcZ+TtXYJxwMC09WyJVHEqOwARctYCExtw2jI4toGEQqdSmLY+qjGDadn4+tv1Vm7HZY9OGEL0sOoCuaA65lI+r1udbUMhWaZtW1iwfGHOduFCevJ8WJiMEyPus=
   on:
     branch: master
