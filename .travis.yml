@@ -7,3 +7,10 @@ install:
   - pip install -e .
 script:
   - pytest
+deploy:
+  provider: pypi
+  user: "siku2"
+  password:
+    secure: "1JujgVYfzk5gtDqMlV5xlQifcri69GLwc7Py4wS5ONUuxEzazRYvzX6L2LRX78ecXiLDRtAk0tkeuXgVUepyQuMdh668PYAssjFU64Tcg1J+jmevRufzIjysqOhAvlzkhAyd0IItpOnAqC5S68ItlPSpdJDsAzOlkqNT78OdCsYZI+lsLnATPsqzTDCe7GIgTHGndJdTaRIFYiBVxe0HDCEetpe2CuWfpzQ9+gkcbvDkLQRifRk6lgoFgCSynkIVhIP950BTVCEDNtJkNT0rrsFBiixu2BEojSM72/1mbdhyasLBmb7O+FnlFjYXmPhbFdkVH4AugDl3kkd9DIp64NtY1iTNKb+3ID9uM/hbNZLNM1CrMrZ1L+KNaaSbT3kJ3TKCHs6P8rXeh7+9qkAIJ4E1CWuC/e+Ewb9oZ9XhJqKYPCRCLewt2+9ZKrxw58D+DXNr6tXz5AtoNLE8kzC/H8DcFTQNyHGI/fXl0vA9iCSzcwQjAzbydGmeKSMYvtG/KvY5xFIws1fpCwJwvaGeQS8G1tsXrn/7Gl5b9QrcrJHVEKLRtP9u63QaMuF+i7yxWbLFXW0nGewq4U2yZxcv6YQomQTidfWtycBRu3WTAXp1fb6YcDAGLox//mo+REtEYjtM5LNzp1y5VVaurj+mQ6BCR03q3FHnswrIMm3m6N4="
+  on:
+    branch: master
