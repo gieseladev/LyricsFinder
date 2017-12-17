@@ -1,6 +1,6 @@
 # flake8: noqa
 
-from lyrics import utils
+from lyricsfinder import utils
 
 
 def test_safe_filename():

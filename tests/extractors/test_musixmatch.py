@@ -1,8 +1,8 @@
 # flake8: noqa
 import hashlib
 
-from lyrics.extractors.musixmatch import MusixMatch
-from lyrics.utils import UrlData
+from lyricsfinder.extractors.musixmatch import MusixMatch
+from lyricsfinder.utils import UrlData
 
 
 class TestMusixmatch:
