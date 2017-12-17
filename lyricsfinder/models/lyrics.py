@@ -11,12 +11,12 @@ class LyricsOrigin:
 
     __slots__ = ["query", "url", "source_name", "source_url"]
 
-    def __init__(self, url, source_name, source_url):
+    def __init__(self, url, source_name, source_url, *, query=None):
         """Create new origin."""
         self.url = url
         self.source_name = source_name
         self.source_url = source_url
-        self.query = None
+        self.query = query
 
     def __str__(self):
         """Return string rep."""
