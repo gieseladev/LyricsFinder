@@ -1,3 +1,4 @@
+# flake8: noqa
 import hashlib
 
 from lyrics.extractors.musixmatch import MusixMatch
