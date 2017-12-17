@@ -20,7 +20,7 @@ setup(
     author="siku2",
     author_email="siku2@outlook.com",
     classifiers=[
-        "Development Status :: 2 - Beta",
+        "Development Status :: 4 - Beta",
 
         "Intended Audience :: Developers",
         "Topic :: Multimedia :: Sound/Audio",
