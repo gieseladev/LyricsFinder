@@ -11,7 +11,7 @@ with open(path.join(here, "README.rst"), encoding="utf-8") as f:
 
 setup(
     name="lyricsfinder",
-    version="0.0.1",
+    version="0.0.2",
     description="Retrieve lyrics for a song",
     long_description=long_description,
     url="https://github.com/siku2/LyricsFinder",
