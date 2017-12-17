@@ -27,6 +27,7 @@ class Animelyrics(LyricsExtractor):
         lyrics_window = main_body.find_all("table")
 
         if lyrics_window:  # shit's been translated
+            log.info("these lyrics have been translated... sighs...")
             lyrics_window = lyrics_window[0]
 
             lines = lyrics_window.find_all("tr")

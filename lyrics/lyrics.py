@@ -27,6 +27,7 @@ class LyricsManager:
     @classmethod
     def extract_lyrics(cls, url):
         """Extract lyrics from url."""
+        log.info("extracting lyrics from url \"{}\"".format(url))
         url_data = UrlData(url)
         for extractor in cls.extractors:
             if extractor.can_handle(url_data):
