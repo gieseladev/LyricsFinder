@@ -37,6 +37,9 @@ class LyricsManager:
                 except exceptions.NoLyrics:
                     log.warn("{} didn't find any lyrics at {}".format(extractor, url))
                     continue
+                except exceptions.NotAllowedError:
+                    log.warn("{} couldn't access lyrics at {}".format(extractor, url))
+                    continue
                 except Exception:
                     log.exception("Something went wrong when {} handled {}".format(extractor, url_data))
                     continue
