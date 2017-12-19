@@ -99,16 +99,25 @@ LyricsFinder is designed with expandability in mind. The following is a very bri
 
 - Extractions can be performed [directly with source URL's](https://github.com/GieselaDev/LyricsFinder/blob/master/lyricsfinder/lyrics.py#L27) or with a [Google Custom Search Engine](https://github.com/GieselaDev/LyricsFinder/blob/master/lyricsfinder/lyrics.py#L53) which requires a Google Developer API key with the Search API enabled. This enables very accurate search results. Cache is also an implementation ability of the package for efficiency.
 
-- Lyrics are [modeled](https://github.com/GieselaDev/LyricsFinder/blob/master/lyricsfinder/models/lyrics.py#L40) with the following rough object base template:
+- Results can be stored in JSON format to cache, or simply returned as such. The model API takes care of this cache ability.
+
+- The original `LyricsOrigin` model class contains the following used to initialize/construct the instance of the class:
+
+```python
+
+__slots__ = ["query", "url", "source_name", "source_url"]
+```
+
+- This is further converted into a `dict` (see [`to_dict`](https://github.com/GieselaDev/LyricsFinder/blob/master/lyricsfinder/models/lyrics.py#L30)) which contains the data for the source (origin) of our lyric fetch.
+
+- Similarly, the `Lyrics` model class contains the following used to initialize/construct the instance of the class: 
 
 ```python
 
 __slots__ = ["title", "lyrics", "origin", "timestamp"]
+``` 
 
-```
-- Results can be stored in JSON format to cache, or simply returned as such. The model API takes care of this cache ability.
-
-- The lyric results are stored and converted into a `dict` which then is processed and returned in the following JSON output body: 
+- This is processed and the lyric object is constructed. It is converted into a [`dict`](https://github.com/GieselaDev/LyricsFinder/blob/master/lyricsfinder/models/lyrics.py#L68) and then further processed to save to the following JSON output body: 
 
 ```json
 {
