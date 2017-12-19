@@ -2,7 +2,7 @@
 import hashlib
 
 from lyricsfinder.extractors.musixmatch import MusixMatch
-from lyricsfinder.models.exceptions import NotAllowedError, NoLyrics
+from lyricsfinder.models.exceptions import NotAllowedError
 from lyricsfinder.utils import UrlData
 
 
@@ -13,8 +13,8 @@ class TestMusixmatch:
     def test_extraction(self):
         try:
             lyrics = MusixMatch.extract_lyrics(UrlData("https://www.musixmatch.com/lyrics/Dua-Lipa/New-Rules"))
-        except (NotAllowedError, NoLyrics):
-            print("Couldn't test MusixMatch, access denied or no lyrics found.")
+        except NotAllowedError:
+            print("couldn't test MusixMatch, access denied")
             return
 
         lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
