@@ -3,10 +3,13 @@ python:
 - '3.6'
 - nightly
 install:
+- pip install codecov
 - pip install -r requirements.txt
 - pip install -e .
 script:
-- pytest
+- pytest --cov=./
+after_success:
+- codecov
 deploy:
   provider: pypi
   user: siku2
