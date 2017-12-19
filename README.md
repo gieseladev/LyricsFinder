@@ -75,7 +75,6 @@ LyricsFinder is designed with expandability in mind. The following is a very bri
 | --- | --- |
 | Anime Lyrics  | Extractor for animelyrics.com |
 | AZLyrics | Extractor for azlyrics.com |
-| Anime Lyrics  | Extractor for animelyrics.com |
 | Genius | Extractor for genius.com |
 | Lyricsmode  | Extractor for lyricsmode.com |
 | Lyrical Nonsense | Extractor for lyrical-nonsense.com |
