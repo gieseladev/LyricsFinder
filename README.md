@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/GieselaDev/LyricsFinder.svg?branch=master)](https://travis-ci.org/GieselaDev/LyricsFinder)
+[![GitHub license](https://img.shields.io/github/license/GieselaDev/LyricsFinder.svg)](https://pypi.python.org/pypi/lyricsfinder)
+[![Python Versions](https://img.shields.io/pypi/pyversions/lyricsfinder.svg)](https://pypi.python.org/pypi/lyricsfinder)
 
 # LyricsFinder
 
