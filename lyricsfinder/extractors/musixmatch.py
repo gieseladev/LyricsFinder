@@ -2,6 +2,8 @@
 
 import logging
 
+from requests.exceptions import HTTPError
+
 from ..extractor import LyricsExtractor
 from ..models import exceptions
 from ..models.lyrics import Lyrics
@@ -20,6 +22,10 @@ class MusixMatch(LyricsExtractor):
     def extract_lyrics(cls, url_data):
         """Extract lyrics."""
         url_data.headers = {"user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"}
+        try:
+            url_data.resp.raise_for_status()
+        except HTTPError:
+            raise exceptions.NotAllowedError
         bs = url_data.bs
 
         if bs.find_all("div", attrs={"class": "mxm-empty-state", "data-reactid": "87"}):

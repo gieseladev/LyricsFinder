@@ -42,11 +42,11 @@ class Lyrics:
 
     __slots__ = ["title", "lyrics", "origin", "timestamp"]
 
-    def __init__(self, title, lyrics, *, timestamp=None):
+    def __init__(self, title, lyrics, *, origin=None, timestamp=None):
         """Create lyrics."""
         self.title = title
         self.lyrics = lyrics
-        self.origin = None
+        self.origin = origin
 
         self.timestamp = timestamp or time.time()
 
