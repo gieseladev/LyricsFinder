@@ -21,7 +21,7 @@ class Genius(LyricsExtractor):
         bs = url_data.bs
 
         lyrics_window = bs.find_all("div", {"class": "lyrics"})[0]
-        lyrics = lyrics_window.text
+        lyrics = lyrics_window.text.strip()
 
         title = bs.find("h1", attrs={"class": "header_with_cover_art-primary_info-title"}).text.strip()
 

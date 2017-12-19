@@ -1,10 +1,12 @@
 # flake8: noqa
 
 import hashlib
+import inspect
 import json
+from contextlib import suppress
 from io import StringIO
 
-from lyricsfinder.models import Lyrics, LyricsOrigin
+from lyricsfinder.models import Lyrics, LyricsOrigin, exceptions
 
 
 def test_lyrics():
@@ -27,3 +29,13 @@ def test_lyrics():
     assert lyrics.origin.source_name == after_lyrics.origin.source_name
     assert lyrics.origin.source_url == after_lyrics.origin.source_url
     assert lyrics.origin.query == after_lyrics.origin.query
+
+
+def test_exceptions():
+    """Test whether all the exceptions derive from one base!"""
+    all_exceptions = inspect.getmembers(exceptions, inspect.isclass)
+    base_name, base = all_exceptions.pop(0)
+
+    for exc_name, exc in all_exceptions:
+        with suppress(base):
+            raise exc("Test")

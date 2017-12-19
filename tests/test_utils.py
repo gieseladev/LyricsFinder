@@ -8,6 +8,7 @@ def test_safe_filename():
 
 
 def test_url_data():
+    """Test whether the UrlData class caches properly."""
     url_data = utils.UrlData("https://www.google.com")
     assert url_data.bs
     assert url_data._html
