@@ -23,12 +23,10 @@ class Animelyrics(LyricsExtractor):
         """Extract lyrics."""
         bs = url_data.bs
 
-        main_body = bs.find_all("table")[0]
-        lyrics_window = main_body.find_all("table")
+        lyrics_window = bs.find("table", attrs={"cellspacing": "0", "border": "0"})
 
         if lyrics_window:  # shit's been translated
             log.info("these lyrics have been translated... sighs...")
-            lyrics_window = lyrics_window[0]
 
             lines = lyrics_window.find_all("tr")
             lyrics = ""
@@ -48,7 +46,7 @@ class Animelyrics(LyricsExtractor):
             if match:
                 lyrics = match.group(1).strip()
 
-        title = bs.find("td", attrs={"valign": "top"}).find("h1").text.strip()
+        title = bs.select("div ~ h1")[0].string.strip()
 
         lyrics = lyrics.replace("\xa0", " ").replace("\r", "")
 
