@@ -6,13 +6,13 @@
 
 # LyricsFinder
 
-LyricsFinder is a modular and easily expandable Python Package that is used to extract lyrics from music and return them in a JSON-formatted body, with abilities such as caching. By having the ability to use a combination of a Google Custom Search Engine and a set of extractors for several sources, lyrics are attained with much higher accuracy and generally from the best desired source.
+LyricsFinder is a modular and easily expandable Python Package that is used to extract lyrics from music. By having the ability to use a combination of a Google Custom Search Engine and a set of extractors for several sources, lyrics are attained with much higher accuracy and generally from the best desired source.
 
 ### Requirements
 
-- **Python 3.6+** with `pip` 
+- **Python 3.6+** with `pip`
 
-- **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/apis/library/customsearch.googleapis.com/?q=sear&id=8a9b6e90-7182-4ba2-a6f5-b7063dc57275) with the 'Custom Search' API enabled. This link should take one there once logged in. 
+- **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/apis/library/customsearch.googleapis.com/?q=sear&id=8a9b6e90-7182-4ba2-a6f5-b7063dc57275) with the 'Custom Search' API enabled. This link should take one there once logged in.
 
 *Note: While the Google tools aren't technically required for this project, much of the beneficial functionality depends on such keys/search engines. However, direct searching/parsing from a supported URL source is possible to incorporate with this package, though not the recommended way to utilize it (unless one requires a specific application requirement/design need).*
 
@@ -25,7 +25,7 @@ requests
 ```
 
 
-## Installation 
+## Installation
 
 
 > **Note that** `sudo` or `sudo -H` may be required to install depending on your system setup. If any permission errors occur, please use the sudo flags.
@@ -39,9 +39,9 @@ pip install lyricsfinder  # if pip matches Python 3.6+
 
 
 pip3 install lyricsfinder # if pip3 matches Python 3.6+
-``` 
+```
 
-**Ensure your `pip` version matches that of Python.** 
+**Ensure your `pip` version matches that of Python.**
 
 Many systems will allocate `pip3` to **Python 3.6+**, so `pip3` can be used if your system has this installed. (`pip` will, in this case, be associated with **Python 2.7.x**)
 
@@ -105,10 +105,10 @@ LyricsFinder is designed with expandability in mind. The following is a very bri
    `query`, `url`, `source_name`, `source_url`
 
 
-- Similarly, the `Lyrics` model class contains the following attributes: 
+- Similarly, the `Lyrics` model class contains the following attributes:
    `title`, `lyrics`, `origin`, `timestamp`
 
-- The `lyrics` contain newline parsed lyrics, the `origin` contains the `query` which was searched for, the `source_name` from one of the listed sources in the above chart (such as Genius), the `source_url` which contains the base URL of the source, and the `url` contains the direct link for the track lyrics on the given source. The `timestamp` is a standard UNIX timestamp from the request time and the `title` is the parsed title of the track in question. 
+- The `lyrics` contain newline parsed lyrics, the `origin` contains the `query` which was searched for, the `source_name` from one of the listed sources in the above chart (such as Genius), the `source_url` which contains the base URL of the source, and the `url` contains the direct link for the track lyrics on the given source. The `timestamp` is a standard UNIX timestamp from the request time and the `title` is the parsed title of the track in question.
 
 > *Please see the example of an implementation of this at the bottom of this README.*
 
@@ -125,7 +125,7 @@ Some current implementations:
 
 >  **An example of an output from an API implementation in action: https://utils.giesela.org/lyrics/The%20A%20Team**
 
-Lyrics are cached for faster loading in this implementation (as is highly recommended). 
+Lyrics are cached for faster loading in this implementation (as is highly recommended).
 
 **[IMPORTANT] Please note that the above live example is not for large-scale use;** the public API is monitored and rate limited to prevent abuse. If you wish to host your own version, the GiTils package linked above is the implementation of the API (along with other utilities).
 
