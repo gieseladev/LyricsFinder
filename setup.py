@@ -13,7 +13,7 @@ with open(path.join(here, "README.rst"), encoding="utf-8") as f:
 
 setup(
     name="lyricsfinder",
-    version="1.1.1",
+    version="1.1.3",
     description="Retrieve lyrics!",
     long_description=long_description,
     url="https://github.com/siku2/LyricsFinder",
@@ -26,7 +26,9 @@ setup(
         "Topic :: Multimedia :: Sound/Audio",
 
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.6"
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.4"
     ],
     keywords="lyrics",
     packages=find_packages(exclude=["docs", "tests"]),
