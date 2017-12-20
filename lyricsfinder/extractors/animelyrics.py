@@ -50,4 +50,6 @@ class Animelyrics(LyricsExtractor):
 
         title = bs.find("td", attrs={"valign": "top"}).find("h1").text.strip()
 
+        lyrics = lyrics.replace("\xa0", " ").replace("\r", "")
+
         return Lyrics(title, lyrics)

@@ -65,3 +65,14 @@ def safe_filename(name, file_ending=".json"):
     filename = re.sub(r"\W+", "-", filename)
 
     return filename.lower().strip() + file_ending
+
+
+def clean_lyrics(lyrics):
+    """Perform some simple operations to clean the lyrics."""
+    lyrics = lyrics.strip()
+    lyrics = re.sub(r"[^\w\[\]\(\)\/ \"',\.:\-\n?!]+", "", lyrics)  # remove unwanted characters
+    lyrics = re.sub(r" +", " ", lyrics)  # reduce to one space only
+    lyrics = re.sub(r"\n{2,}", "\n\n", lyrics)  # reduce to max 2 new lines in a row
+    lyrics = re.sub(r" +?\n", "\n", lyrics)  # remove space before newline
+
+    return lyrics

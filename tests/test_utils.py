@@ -14,3 +14,10 @@ def test_url_data():
     assert url_data._html
     assert url_data._resp
     assert url_data._bs
+
+
+def test_cleaner():
+    pre = "    [allowed]|hey\n\n\nthere(test)    \n\tcool\r\ntest ! "
+    clean = utils.clean_lyrics(pre)
+
+    assert clean == "[allowed]hey\n\nthere(test)\ncool\ntest !"
