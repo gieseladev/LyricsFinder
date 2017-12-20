@@ -1,7 +1,7 @@
 """Lyrics object."""
 import json
 import time
-from io import IOBase
+from io import TextIOBase
 
 from .. import utils
 
@@ -76,7 +76,7 @@ class Lyrics:
 
     def save(self, f=None):
         """Save the lyrics."""
-        if isinstance(f, IOBase):
+        if isinstance(f, TextIOBase):
             d = f
         elif isinstance(f, str):
             d = open(f, "w+")

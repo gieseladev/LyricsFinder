@@ -22,6 +22,6 @@ class Lyricsmode(LyricsExtractor):
         lyrics_window = bs.find_all("p", {"id": "lyrics_text", "class": "ui-annotatable"})[0]
         lyrics = lyrics_window.text
 
-        title = bs.find("h1", attrs={"class": "song_name fs32"}).text.strip()
+        title = bs.find("h1", attrs={"class": "song_name fs32"}).text[:-7]
 
         return Lyrics(title, lyrics)

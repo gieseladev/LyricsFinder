@@ -19,7 +19,7 @@ class AZLyrics(LyricsExtractor):
     @classmethod
     def extract_lyrics(cls, url_data):
         """Extract lyrics."""
-        url_data.headers = {"user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"}
+        url_data.headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0"}
         bs = url_data.bs
 
         center = bs.body.find("div", {"class": "col-xs-12 col-lg-8 text-center"})
@@ -32,5 +32,6 @@ class AZLyrics(LyricsExtractor):
         lyrics = re.sub(r"<\/div>", "", lyrics)
 
         title = center.find("h1").text.strip()[1:-8]
+        lyrics = lyrics.strip()
 
         return Lyrics(title, lyrics)
