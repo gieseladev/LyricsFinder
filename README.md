@@ -10,7 +10,7 @@ LyricsFinder is a modular and easily expandable Python Package that is used to e
 
 ### Requirements
 
-- **Python 3.6+** with `pip`
+- **Python 3.4+** with `pip` *(3.6+ recommended)*
 
 - **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/apis/library/customsearch.googleapis.com/?q=sear&id=8a9b6e90-7182-4ba2-a6f5-b7063dc57275) with the 'Custom Search' API enabled. This link should take one there once logged in.
 
@@ -43,11 +43,11 @@ pip3 install lyricsfinder # if pip3 matches Python 3.6+
 
 **Ensure your `pip` version matches that of Python.**
 
-Many systems will allocate `pip3` to **Python 3.6+**, so `pip3` can be used if your system has this installed. (`pip` will, in this case, be associated with **Python 2.7.x**)
+Many systems will allocate `pip3` to **Python 3.x+**, so `pip3` can be used if your system has this installed. (`pip` will, in this case, be associated with **Python 2.7.x**)
 
 
 
-> **Alternatively, you can install directly (ensure `python3 --version` is 3.6 or greater):**
+> **Alternatively, you can install directly (ensure `python3 --version` is 3.4 or greater, though 3.6 is recommended):**
 
 ```bash
 python3 -m pip install -U https://github.com/GieselaDev/LyricsFinder/archive/master.zip
