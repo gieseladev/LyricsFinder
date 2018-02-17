@@ -35,10 +35,10 @@ requests
 
 ```bash
 
-pip install lyricsfinder  # if pip matches Python 3.6+
+pip install lyricsfinder  # if pip matches Python 3.4+
 
 
-pip3 install lyricsfinder # if pip3 matches Python 3.6+
+pip3 install lyricsfinder # if pip3 matches Python 3.4+
 ```
 
 **Ensure your `pip` version matches that of Python.**
@@ -120,10 +120,10 @@ Some current implementations:
 
 - [Giesela](https://github.com/GieselaDev/Giesela) -- a unique music suite and player for Discord.
 
-- [GiTils](https://github.com/GieselaDev/GiTils) -- the official utilities package for Giesela, which includes an API implementation using Flask. Such an example can be seen [here](https://github.com/GieselaDev/GiTils/blob/master/GiTils/blueprints/lyrics.py).
+- [GiTils](https://github.com/GieselaDev/GiTils) -- the official utilities package for Giesela, which includes an API implementation using Flask, uWSGI served through an optimized nginx webserver. Such an example can be seen [here](https://github.com/GieselaDev/GiTils/blob/master/GiTils/blueprints/lyrics.py).
 
 
->  **An example of an output from an API implementation in action: https://utils.giesela.org/lyrics/The%20A%20Team**
+>  **An example of an output from an API implementation in action:** **[https://gitils.giesela.io/lyrics/The%20A%20Team](https://gitils.giesela.io/lyrics/The%20A%20Team)**
 
 Lyrics are cached for faster loading in this implementation (as is highly recommended).
 
