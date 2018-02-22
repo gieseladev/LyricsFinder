@@ -12,7 +12,7 @@ LyricsFinder is a modular and easily expandable Python Package that is used to e
 
 - **Python 3.4+** with `pip` *(3.6+ recommended)*
 
-- **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/apis/library/customsearch.googleapis.com/?q=sear&id=8a9b6e90-7182-4ba2-a6f5-b7063dc57275) with the 'Custom Search' API enabled. This link should take one there once logged in.
+- **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/projectselector/apis/library/customsearch.googleapis.com/) with the 'Custom Search' API enabled. This link should take one there once logged in.
 
 *Note: While the Google tools aren't technically required for this project, much of the beneficial functionality depends on such keys/search engines. However, direct searching/parsing from a supported URL source is possible to incorporate with this package, though not the recommended way to utilize it (unless one requires a specific application requirement/design need).*
 
@@ -28,7 +28,7 @@ requests
 ## Installation
 
 
-> **Note that** `sudo` or `sudo -H` may be required to install depending on your system setup. If any permission errors occur, please use the sudo flags.
+> **Note that** `sudo` may be required to install depending on your system setup. If any permission errors occur, please use the sudo flags.
 
 
 > **This package can easily be installed with one of `pip` or `pip3` as follows:**
@@ -39,6 +39,7 @@ pip install lyricsfinder  # if pip matches Python 3.4+
 
 
 pip3 install lyricsfinder # if pip3 matches Python 3.4+
+
 ```
 
 **Ensure your `pip` version matches that of Python.**
@@ -64,7 +65,7 @@ $ python3 -m pip install .
 
 > **Testing the package (optional):**
 
-You may use [`pytest`](https://docs.pytest.org/en/latest/) to test the package.
+You may use [`pytest`](https://docs.pytest.org/en/latest/) to test the package. 
 
 
 ## Basic Usage
@@ -120,12 +121,12 @@ Some current implementations:
 
 - [Giesela](https://github.com/GieselaDev/Giesela) -- a unique music suite and player for Discord.
 
-- [GiTils](https://github.com/GieselaDev/GiTils) -- the official utilities package for Giesela, which includes an API implementation using Flask, uWSGI served through an optimized nginx webserver. Such an example can be seen [here](https://github.com/GieselaDev/GiTils/blob/master/GiTils/blueprints/lyrics.py).
+- [GiTils](https://github.com/GieselaDev/GiTils) -- the official utilities package for Giesela, which includes an API implementation using Flask, uWSGI served through an optimized nginx webserver. The GiTils lyrics are stored in MongoDB cache. The example can be seen [here](https://github.com/GieselaDev/GiTils/blob/master/GiTils/blueprints/lyrics.py).
 
 
->  **An example of an output from an API implementation in action:** **[https://gitils.giesela.io/lyrics/The%20A%20Team](https://gitils.giesela.io/lyrics/The%20A%20Team)**
+>  **An example of the live implementation of GiTils' lyrics blueprint from the source in action:** **[https://gitils.giesela.io/lyrics/The%20A%20Team](https://gitils.giesela.io/lyrics/The%20A%20Team)**
 
-Lyrics are cached for faster loading in this implementation (as is highly recommended).
+Lyrics are cached in MongoDB for faster loading in this implementation.
 
 **[IMPORTANT] Please note that the above live example is not for large-scale use;** the public API is monitored and rate limited to prevent abuse. If you wish to host your own version, the GiTils package linked above is the implementation of the API (along with other utilities).
 
