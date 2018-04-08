@@ -1,6 +1,12 @@
 """Base for extracting."""
 
 import logging
+from typing import TYPE_CHECKING
+
+from .utils import UrlData
+
+if TYPE_CHECKING:
+    from .lyrics import Lyrics
 
 log = logging.getLogger(__name__)
 
@@ -25,16 +31,16 @@ class LyricsExtractorMount(type):
 class LyricsExtractor(metaclass=LyricsExtractorMount):
     """A class capable of retrieving lyrics."""
 
-    name = "GENERIC"
-    url = "http://giesela.org"
-    display_url = "giesela.org"
+    name: str = "GENERIC"
+    url: str = "http://giesela.org"
+    display_url: str = "giesela.org"
 
     @classmethod
-    def can_handle(cls, url_data):
+    def can_handle(cls, url_data: UrlData) -> bool:
         """Check whether this extractor can extract lyrics from this url."""
         return cls.display_url in url_data.url
 
     @classmethod
-    def extract_lyrics(cls, url_data):
+    def extract_lyrics(cls, url_data: UrlData) -> "Lyrics":
         """Return a Lyrics object for the given url, html or bs."""
         raise NotImplementedError

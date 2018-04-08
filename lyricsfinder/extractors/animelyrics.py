@@ -6,9 +6,12 @@ import re
 import requests
 
 from ..extractor import LyricsExtractor
+from ..models import exceptions
 from ..models.lyrics import Lyrics
 
 log = logging.getLogger(__name__)
+
+ARTIST_MATCHER = re.compile(r"^Performed by ([\w' ]+)\b", re.MULTILINE)
 
 
 class Animelyrics(LyricsExtractor):
@@ -22,6 +25,9 @@ class Animelyrics(LyricsExtractor):
     def extract_lyrics(cls, url_data):
         """Extract lyrics."""
         bs = url_data.bs
+        title = bs.select_one("div ~ h1").string
+        artist = bs.find(text=ARTIST_MATCHER)
+        artist = ARTIST_MATCHER.match(artist).group(1)
 
         lyrics_window = bs.find("table", attrs={"cellspacing": "0", "border": "0"})
 
@@ -45,9 +51,9 @@ class Animelyrics(LyricsExtractor):
             match = re.search(r"-{10,}(.+?)-{10,}", content, flags=re.DOTALL)
             if match:
                 lyrics = match.group(1).strip()
-
-        title = bs.select("div ~ h1")[0].string.strip()
+            else:
+                raise exceptions.NoLyrics
 
         lyrics = lyrics.replace("\xa0", " ").replace("\r", "")
 
-        return Lyrics(title, lyrics)
+        return Lyrics(title, lyrics, artist=artist)

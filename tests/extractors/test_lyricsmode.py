@@ -1,4 +1,3 @@
-# flake8: noqa
 import hashlib
 
 from lyricsfinder.extractors.lyricsmode import Lyricsmode

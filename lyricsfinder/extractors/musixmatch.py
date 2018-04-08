@@ -1,6 +1,8 @@
 """Extractor for Musixmatch.com."""
 
 import logging
+import re
+from datetime import datetime
 
 from requests.exceptions import HTTPError
 
@@ -9,6 +11,8 @@ from ..models import exceptions
 from ..models.lyrics import Lyrics
 
 log = logging.getLogger(__name__)
+
+ORDINAL_MATCHER = re.compile(r"(\d{1,2})(st|nd|rd|th)")
 
 
 class MusixMatch(LyricsExtractor):
@@ -48,5 +52,11 @@ class MusixMatch(LyricsExtractor):
 
         lyrics = lyrics_window.text
         title = bs.find("h1", attrs={"class": "mxm-track-title__track"}).contents[-1].strip()
+        artist = bs.select_one("a.mxm-track-title__artist").string
+        release_date = None
+        date_str = bs.select_one("div.mxm-track-footer__album h3.mui-cell__subtitle")
+        if date_str:
+            date_str = ORDINAL_MATCHER.sub(lambda m: m.group(1).zfill(2), date_str.string)
+            release_date = datetime.strptime(date_str, "%b %d %Y")
 
-        return Lyrics(title, lyrics)
+        return Lyrics(title, lyrics, artist=artist, release_date=release_date)

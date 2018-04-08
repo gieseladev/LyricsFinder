@@ -1,10 +1,8 @@
 """Lyric finder exceptions."""
 
-
-class LyricsException(Exception):
-    """The base class for every lyrics exception."""
-
-    pass
+LyricsException = type("LyricsException", (Exception,), {})
+NoLyrics = type("NoLyrics", (LyricsException,), {})
+NotAllowedError = type("NotAllowedError", (LyricsException,), {})
 
 
 class NoExtractorError(LyricsException):
@@ -13,15 +11,3 @@ class NoExtractorError(LyricsException):
     def __init__(self, url):
         """Create new."""
         super().__init__("No extractor found for {}".format(url))
-
-
-class NoLyrics(LyricsException):
-    """When this url doesn't point to actual lyrics."""
-
-    pass
-
-
-class NotAllowedError(LyricsException):
-    """When the access is blocked."""
-
-    pass

@@ -32,6 +32,7 @@ class AZLyrics(LyricsExtractor):
         lyrics = re.sub(r"<\/div>", "", lyrics)
 
         title = center.find("h1").text.strip()[1:-8]
+        artist = bs.select_one("div.lyricsh h2 b").string[:-7]
         lyrics = lyrics.strip()
 
-        return Lyrics(title, lyrics)
+        return Lyrics(title, lyrics, artist=artist)

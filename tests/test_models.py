@@ -1,6 +1,5 @@
 # flake8: noqa
 
-import hashlib
 import inspect
 import json
 import os
@@ -11,10 +10,9 @@ from io import StringIO
 from lyricsfinder.models import Lyrics, LyricsOrigin, exceptions
 
 
-def _comp_lyrics(before, after):
+def _comp_lyrics(before: Lyrics, after: Lyrics):
     assert before.title == after.title
     assert before.lyrics == after.lyrics
-    assert before.timestamp == after.timestamp
     assert before.save_name == after.save_name
     assert before.origin.url == after.origin.url
     assert before.origin.source_name == after.origin.source_name
@@ -23,7 +21,8 @@ def _comp_lyrics(before, after):
 
 
 def test_lyrics():
-    lyrics = Lyrics("lyrics title", "these are the lyrics", origin=LyricsOrigin("giesela.org/no_lyrics", "Giesela", "giesela.org", query="giesela lyrics"))
+    lyrics = Lyrics("lyrics title", "these are the lyrics",
+                    origin=LyricsOrigin("giesela.org/no_lyrics", "Giesela", "giesela.org", query="giesela lyrics"))
     assert lyrics.save_name == "giesela_lyrics.json"
     f = lyrics.save(StringIO())
     after_data = json.load(f)
@@ -32,7 +31,8 @@ def test_lyrics():
 
 
 def test_save_lyrics():
-    lyrics = Lyrics("lyrics title", "these are the lyrics", origin=LyricsOrigin("giesela.org/no_lyrics", "Giesela", "giesela.org", query="giesela lyrics"))
+    lyrics = Lyrics("lyrics title", "these are the lyrics",
+                    origin=LyricsOrigin("giesela.org/no_lyrics", "Giesela", "giesela.org", query="giesela lyrics"))
     fd, name = tempfile.mkstemp(text=True)
     try:
         lyrics.save(name).close()

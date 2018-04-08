@@ -10,5 +10,3 @@ for module in os.listdir(os.path.dirname(__file__)):
 
     name = ".{}".format(module[:-3])
     imported.append(importlib.import_module(name, __name__))
-
-del module
