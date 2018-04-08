@@ -60,6 +60,8 @@ class Lyrics:
     def from_dict(cls, data: Dict[str, Any]):
         """Load from dict."""
         data["origin"] = LyricsOrigin.from_dict(data["origin"])
+        if data["release_date"]:
+            data["release_date"] = datetime.fromtimestamp(data["release_date"])
         return cls(**data)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -67,6 +69,7 @@ class Lyrics:
         return {
             "title": self.title,
             "artist": self.artist,
+            "release_date": self.release_date.timestamp() if self.release_date else None,
             "lyrics": self.lyrics,
             "origin": self.origin.to_dict()
         }
