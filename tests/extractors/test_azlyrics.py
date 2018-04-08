@@ -2,13 +2,15 @@ import hashlib
 
 from lyricsfinder.extractors.azlyrics import AZLyrics
 from lyricsfinder.utils import UrlData
+import pytest
+import os
 
 
 class TestAZLyrics:
     def test_can_handle(self):
         assert AZLyrics.can_handle(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html"))
 
-    # disabled because azlyrics doesn't respond to Travis
+    @pytest.mark.skipif(os.environ.get("TRAVIS"), reason="AZLyrics doesn't respond to Travis' servers. Don't ask me why!")
     def test_extraction(self):
         lyrics = AZLyrics.extract_lyrics(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html"))
 
