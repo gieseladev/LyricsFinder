@@ -1,1 +1,2 @@
-from .lyrics import Lyrics, LyricsOrigin
+from .exceptions import *
+from .lyrics import *

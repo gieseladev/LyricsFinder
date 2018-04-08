@@ -1,7 +1,10 @@
 import hashlib
 from datetime import datetime
 
+import pytest
+
 from lyricsfinder.extractors.musixmatch import MusixMatch
+from lyricsfinder.models.exceptions import NoLyrics
 from lyricsfinder.utils import UrlData
 
 
@@ -9,7 +12,7 @@ class TestMusixMatch:
     def test_can_handle(self):
         assert MusixMatch.can_handle(UrlData("https://www.musixmatch.com/lyrics/Dua-Lipa/New-Rules"))
 
-    # Currently disabled because it doesn't respond to Travis
+    @pytest.mark.xfail(raises=NoLyrics, reason="Seems like Musixmatch thinks we're a bot, pshsh what gave 'em that idea?")
     def test_extraction(self):
         lyrics = MusixMatch.extract_lyrics(UrlData("https://www.musixmatch.com/lyrics/Dua-Lipa/New-Rules"))
 
