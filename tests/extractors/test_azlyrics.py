@@ -10,7 +10,7 @@ class TestAZLyrics:
     def test_can_handle(self):
         assert AZLyrics.can_handle(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html"))
 
-    @pytest.mark.skipif(os.environ.get("TRAVIS"), reason="AZLyrics doesn't respond to Travis' servers. Don't ask me why!")
+    @pytest.mark.skipif(os.environ.get("TRAVIS") == "true", reason="AZLyrics doesn't respond to Travis' servers. Don't ask me why!")
     def test_extraction(self):
         lyrics = AZLyrics.extract_lyrics(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html"))
 
