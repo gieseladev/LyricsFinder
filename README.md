@@ -10,7 +10,7 @@ LyricsFinder is a modular and easily expandable Python Package that is used to e
 
 ### Requirements
 
-- **Python 3.6++** with `pip`
+- **Python 3.6+** with `pip`
 
 - **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/projectselector/apis/library/customsearch.googleapis.com/) with the 'Custom Search' API enabled. This link should take one there once logged in.
 
@@ -124,7 +124,7 @@ Some current implementations:
 - [GiTils](https://github.com/GieselaDev/GiTils) -- the official utilities package for Giesela, which includes an API implementation using Flask, uWSGI served through an optimized nginx webserver. The GiTils lyrics are stored in MongoDB cache. The example can be seen [here](https://github.com/GieselaDev/GiTils/blob/master/GiTils/blueprints/lyrics.py).
 
 
->  **An example of the live implementation of GiTils' lyrics blueprint from the source in action:** **[https://gitils.giesela.io/lyrics/The%20A%20Team%Ed%Sheeran](https://gitils.giesela.io/lyrics/The%20A%20Team%Ed%Sheeran)**
+>  **An example of the live implementation of GiTils' lyrics blueprint from the source in action:** **[https://gitils.giesela.io/lyrics/substance%20therapy](https://gitils.giesela.io/lyrics/substance%20therapy)**
 
 Lyrics are cached in MongoDB for faster loading in this implementation.
 
