@@ -11,9 +11,10 @@ from requests import Response
 class UrlData:
     """Url stuff."""
 
-    def __init__(self, url: str):
+    def __init__(self, url: str, *, proxies:dict = None):
         """Build url."""
         self.url = url
+        self.proxies = proxies
         self.headers = {}
 
         self.html_parser = "html.parser"
@@ -30,7 +31,7 @@ class UrlData:
     def resp(self) -> Response:
         """Get the requests response object."""
         if not self._resp:
-            self._resp = requests.get(self.url, headers=self.headers)
+            self._resp = requests.get(self.url, headers=self.headers, proxies=self.proxies)
         return self._resp
 
     @property
@@ -48,14 +49,14 @@ class UrlData:
         return self._bs
 
 
-def search(query: str, api_key: str) -> List:
+def search(query: str, api_key: str, *, proxies: dict = None) -> List:
     """Return search results."""
     params = {
         "key": api_key,
         "cx": "002017775112634544492:7y5bpl2sn78",
         "q": query
     }
-    resp = requests.get("https://www.googleapis.com/customsearch/v1", params=params)
+    resp = requests.get("https://www.googleapis.com/customsearch/v1", params=params, proxies=proxies)
     data = resp.json()
     items = data.get("items", [])
     return items

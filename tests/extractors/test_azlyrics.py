@@ -5,14 +5,23 @@ from lyricsfinder.utils import UrlData
 import pytest
 import os
 
+key = os.getenv("proxymesh")
+
+if key:
+    proxies = {
+        'http': f"http://{key}@us-ny.proxymesh.com:31280",
+        'https': f"https://{key}@us-ny.proxymesh.com:31280"
+    }
+else:
+    proxies = None
+
 
 class TestAZLyrics:
     def test_can_handle(self):
-        assert AZLyrics.can_handle(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html"))
+        assert AZLyrics.can_handle(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html", proxies=proxies))
 
-    @pytest.mark.skipif(os.environ.get("TRAVIS") == "true", reason="AZLyrics doesn't respond to Travis' servers. Don't ask me why!")
     def test_extraction(self):
-        lyrics = AZLyrics.extract_lyrics(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html"))
+        lyrics = AZLyrics.extract_lyrics(UrlData("https://www.azlyrics.com/lyrics/edsheeran/theateam.html", proxies=proxies))
 
         lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
 
