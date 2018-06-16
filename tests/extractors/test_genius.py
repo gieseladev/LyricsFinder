@@ -14,7 +14,7 @@ class TestGenius:
 
         lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
 
-        assert lyrics_hash == "8f2f9910ef8053c3b98a97c632f8ed44585b659816db94670541e3f24ca24f58"
+        assert lyrics_hash == "abebd9158717ba25ecba32725e6f517837ff5280b55544b576e6e3f3d7f1b590"
         assert lyrics.title == "The A Team"
         assert lyrics.artist == "Ed Sheeran"
         assert lyrics.release_date == datetime(2011, 6, 12)
