@@ -30,7 +30,7 @@ class LyricsManager:
     def extract_lyrics(cls, url: str, *, proxies: dict = None) -> Lyrics:
         """Extract lyrics from url."""
         log.info("extracting lyrics from url \"{}\"".format(url))
-        url_data = UrlData(url)
+        url_data = UrlData(url, proxies=proxies)
         for extractor in cls.extractors:
             if extractor.can_handle(url_data):
                 log.debug("using {} for {}".format(extractor, url_data))
