@@ -27,7 +27,7 @@ class LyricsManager:
         log.info("loaded {} extractors".format(len(cls.extractors)))
 
     @classmethod
-    def extract_lyrics(cls, url: str) -> Lyrics:
+    def extract_lyrics(cls, url: str, *, proxies: dict = None) -> Lyrics:
         """Extract lyrics from url."""
         log.info("extracting lyrics from url \"{}\"".format(url))
         url_data = UrlData(url)
@@ -53,14 +53,14 @@ class LyricsManager:
         raise exceptions.NoExtractorError(url)
 
     @classmethod
-    def search_lyrics(cls, query: str, *, google_api_key: str) -> Iterator[Lyrics]:
+    def search_lyrics(cls, query: str, *, google_api_key: str, proxies: dict = None) -> Iterator[Lyrics]:
         """Search the net for lyrics."""
-        results = search(query, google_api_key)
+        results = search(query, google_api_key, proxies=proxies)
         log.debug("got {} results".format(len(results)))
         for result in results:
             url = result["link"]
             try:
-                lyrics = cls.extract_lyrics(url)
+                lyrics = cls.extract_lyrics(url, proxies=proxies)
             except exceptions.NoExtractorError:
                 log.warning("No extractor for url {}".format(url))
                 continue
