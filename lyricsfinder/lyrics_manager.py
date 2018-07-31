@@ -1,5 +1,3 @@
-"""Fancy lyrics managment."""
-
 import logging
 from typing import Iterator
 
