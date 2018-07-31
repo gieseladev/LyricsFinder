@@ -10,7 +10,7 @@ LyricsFinder is a modular and easily expandable Python Package that is used to e
 
 ### Requirements
 
-- **Python 3.4+** with `pip` *(3.6+ recommended)*
+- **Python 3.6+** with `pip`
 
 - **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/projectselector/apis/library/customsearch.googleapis.com/) with the 'Custom Search' API enabled. This link should take one there once logged in.
 
@@ -35,10 +35,10 @@ requests
 
 ```bash
 
-pip install lyricsfinder  # if pip matches Python 3.4+
+pip install lyricsfinder  # if pip matches Python 3.6+
 
 
-pip3 install lyricsfinder # if pip3 matches Python 3.4+
+pip3 install lyricsfinder # if pip3 matches Python 3.6+
 
 ```
 
@@ -48,7 +48,7 @@ Many systems will allocate `pip3` to **Python 3.x+**, so `pip3` can be used if y
 
 
 
-> **Alternatively, you can install directly (ensure `python3 --version` is 3.4 or greater, though 3.6 is recommended):**
+> **Alternatively, you can install directly (ensure `python3 --version` is 3.6 or greater):**
 
 ```bash
 python3 -m pip install -U https://github.com/GieselaDev/LyricsFinder/archive/master.zip
@@ -124,7 +124,7 @@ Some current implementations:
 - [GiTils](https://github.com/GieselaDev/GiTils) -- the official utilities package for Giesela, which includes an API implementation using Flask, uWSGI served through an optimized nginx webserver. The GiTils lyrics are stored in MongoDB cache. The example can be seen [here](https://github.com/GieselaDev/GiTils/blob/master/GiTils/blueprints/lyrics.py).
 
 
->  **An example of the live implementation of GiTils' lyrics blueprint from the source in action:** **[https://gitils.giesela.io/lyrics/The%20A%20Team](https://gitils.giesela.io/lyrics/The%20A%20Team)**
+>  **An example of the live implementation of GiTils' lyrics blueprint from the source in action:** **[https://gitils.giesela.io/lyrics/substance%20therapy](https://gitils.giesela.io/lyrics/substance%20therapy)**
 
 Lyrics are cached in MongoDB for faster loading in this implementation.
 
