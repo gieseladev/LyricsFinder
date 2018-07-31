@@ -1,12 +1,10 @@
-"""Base for extracting."""
-
 import logging
 from typing import TYPE_CHECKING
 
 from .utils import UrlData
 
 if TYPE_CHECKING:
-    from .lyrics import Lyrics
+    from .lyrics_manager import Lyrics
 
 log = logging.getLogger(__name__)
 

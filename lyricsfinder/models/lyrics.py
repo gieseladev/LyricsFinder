@@ -9,6 +9,10 @@ from .. import utils
 
 class LyricsOrigin:
     """Represents a place where lyrics come from."""
+    url: str
+    source_name: str
+    source_url: str
+    query: str
 
     def __init__(self, url: str, source_name: str, source_url: str, *, query: str = None):
         """Create new origin."""
@@ -38,6 +42,11 @@ class LyricsOrigin:
 
 class Lyrics:
     """Represents lyrics for a song."""
+    title: str
+    artist: str
+    release_date: datetime
+    lyrics: str
+    origin: LyricsOrigin
 
     def __init__(self, title: str, lyrics: str, artist: str = None, release_date: datetime = None, *, origin: LyricsOrigin = None):
         """Create lyrics."""
@@ -63,6 +72,9 @@ class Lyrics:
         if data["release_date"]:
             data["release_date"] = datetime.fromtimestamp(data["release_date"])
         return cls(**data)
+
+    def set_origin(self, origin: LyricsOrigin):
+        self.origin = origin
 
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dict."""

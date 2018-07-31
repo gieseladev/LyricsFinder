@@ -1,8 +1,10 @@
-import hashlib
 from datetime import datetime
+from pathlib import Path
 
 from lyricsfinder.extractors.genius import Genius
 from lyricsfinder.utils import UrlData
+
+lyrics_text = Path("tests/extractors/genius-ed_sheeran-the_a_team.txt").read_text("utf-8")
 
 
 class TestGenius:
@@ -12,9 +14,7 @@ class TestGenius:
     def test_extraction(self):
         lyrics = Genius.extract_lyrics(UrlData("https://genius.com/Ed-sheeran-the-a-team-lyrics"))
 
-        lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
-
-        assert lyrics_hash == "abebd9158717ba25ecba32725e6f517837ff5280b55544b576e6e3f3d7f1b590"
+        assert lyrics.lyrics == lyrics_text
         assert lyrics.title == "The A Team"
         assert lyrics.artist == "Ed Sheeran"
         assert lyrics.release_date == datetime(2011, 6, 12)

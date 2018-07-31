@@ -1,5 +1,3 @@
-"""Utitlities."""
-
 import re
 from typing import List
 
@@ -22,7 +20,7 @@ class UrlData:
         self._html = None
         self._bs = None
 
-    def __str__(self):
+    def __repr__(self) -> str:
         """Return string rep."""
         return "<{}>".format(self.url)
 

@@ -1,0 +1,6 @@
+version: 1.2.7;
+---
+
+added: simple CLI for Lyricsfinder;
+fixed: broken [Lyrical Nonsense](https://www.lyrical-nonsense.com) extractor;
+fixed: broken Genius test case;
