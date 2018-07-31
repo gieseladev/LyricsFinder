@@ -21,8 +21,8 @@ class LyricalNonsense(LyricsExtractor):
     def extract_lyrics(cls, url_data: UrlData) -> Lyrics:
         """Extract lyrics."""
         bs = url_data.bs
-        title = bs.select_one("div.titletext2new h3").text
-        artist = bs.select_one("div.artisttext1new h2 a").text
+        title = bs.select_one("span.titletext2new").text
+        artist = bs.select_one("div.artistcontainer h2 a").text
 
         lyrics_window = bs.select_one("div#Romaji div.olyrictext") or bs.select_one("div#Lyrics div.olyrictext")
         lyrics = utils.clean_lyrics(lyrics_window.text)
