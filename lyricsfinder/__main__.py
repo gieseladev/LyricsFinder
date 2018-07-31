@@ -6,7 +6,8 @@ import lyricsfinder
 
 
 def search(args: Namespace):
-    lyrics = next(lyricsfinder.search_lyrics(args.query, google_api_key=args.api_key))
+    query = " ".join(args.query)
+    lyrics = next(lyricsfinder.search_lyrics(query, google_api_key=args.api_key))
     print(lyrics.lyrics)
 
 
