@@ -26,7 +26,10 @@ class Genius(LyricsExtractor):
 
         title = bs.find("h1", attrs={"class": "header_with_cover_art-primary_info-title"}).text
         artist = bs.select_one("a.header_with_cover_art-primary_info-primary_artist").string
-        date_str = bs.find(text="Release Date").parent.find_next_sibling("span").string
-        release_date = datetime.strptime(date_str, "%B %d, %Y")
+        release_date = None
+        date_str = bs.find(text="Release Date")
+        if date_str:
+            date_str = date_str.parent.find_next_sibling("span").string
+            release_date = datetime.strptime(date_str, "%B %d, %Y")
 
         return Lyrics(title, lyrics, artist=artist, release_date=release_date)

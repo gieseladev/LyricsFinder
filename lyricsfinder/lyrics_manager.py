@@ -45,9 +45,8 @@ class LyricsManager:
                 except Exception:
                     log.exception("Something went wrong when {} handled {}".format(extractor, url_data))
                     continue
-
-                if lyrics:
-                    lyrics.origin = LyricsOrigin(url, extractor.name, extractor.url)
+                else:
+                    lyrics.set_origin(LyricsOrigin(url, extractor.name, extractor.url))
                     log.debug("extracted lyrics {}".format(lyrics))
                     return lyrics
         raise exceptions.NoExtractorError(url)
@@ -64,7 +63,7 @@ class LyricsManager:
             except exceptions.NoExtractorError:
                 log.warning("No extractor for url {}".format(url))
                 continue
-            if lyrics:
+            else:
                 lyrics.origin.query = query
                 yield lyrics
         log.warning("No lyrics found for query \"{}\"".format(query))

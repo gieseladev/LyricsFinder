@@ -1,22 +1,27 @@
 language: python
+
 python:
 - '3.6'
 - nightly
+
 install:
-- pip install pytest-cov
-- pip install codecov
+- pip install pytest pytest-cov codecov
 - pip install -e .
+
 script:
-- py.test --cov=./
+- pytest --cov=./
+
 after_success:
-  - codecov
-  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh success $WEBHOOK_URL
+- codecov
+- wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+- chmod +x send.sh
+- ./send.sh success $WEBHOOK_URL
+
 after_failure:
-  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
-  - chmod +x send.sh
-  - ./send.sh failure $WEBHOOK_URL
+- wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+- chmod +x send.sh
+- ./send.sh failure $WEBHOOK_URL
+
 deploy:
   provider: pypi
   user: siku2
@@ -24,7 +29,7 @@ deploy:
     secure: st33VyBbTweHjqBN+l502ckde80sdEbGw6H4xd+lJaf8QwDU9mQmwtX8YIaVv2cMcrHa2evOaPhYHaZeqsp0HRL5/RuSuL69V8LloSf2XwRXZsPfJArSqUda07yyHdgRVYRNliOBixMFhpdPyegJGNG6IbeGGtqNRFjORKXN5sBR5jWAQRJLL5FhGVQ7vipDps/jWHyD2onLFr7P0GEq7Ijk+8ABSX08/aQxTifvyV3PF5wAgrFicKFKe3MXDhOEem5YKysmn1d4ykqBNZbDQRlzgESpQNuqMqKkzTHPiIuQ9U4IPnyPoKLkNOm9JS7NnaQ4fEY1+L4sXOyswGmv/n1dryoP+qbtmYq/pxnAJW/XSJ0SCQ9W08mCKnBgiBt2Mvi8jfU3yjR6BM3nbqFuCaKymdhsFslf4D2si5EfKaHT60qOwnYQ2EQW9c4+19Zrml1Q4tIfnNZye2+4KGSBZXZHhi9qvB+w/lekPS0wUJVcnWGdihaJEtTFA3RJ/4rjez73Pe+wNHCRZ1OW+xQ0srC/r8IWYFJjZ9pGEUlK3N2PMfMP3sIF2B0jMgWx7Xrjz/McS4C1JTgRRwkRyR5KVCsH/Gwquxgp9E9g2tTaeKfFd4jZ2ul8CRrDxqadwlU07wCLAuOUtlYGkGmQqt1Nc98vhKkCAllfMk4t9Uk9jok=
   on:
     tags: true
-    branch: master
+
 env:
   global:
     secure: EPTl0xsfS8OTFUadzelYuD4M/KmTE+z+t+7w4nfPzwnFlbmr3JOGR4zabZ8NFjfgiHf5NQXIEdVK1S2p52J2cCCHoaSQ0NjtkdveX1CqPkY8rsJy/CjMrhH8KMTTe4idWMCdV1JNJTNwqM9JFbUCFn0eCv0CEzfGrewiD/GG+uaZwt4UHxtCpvO9I6wT/sdA3ovFlS2wdS0Y7RwH1yuQU6+Om9mMu6CwQ2QKd+RAWizyl+28pjqQ1RdB9U/LBrIb3PHvUQKiwtHEvQd7IVo7BLA5oBr2hOXB84dJpr9KI0WQZF8PmsJWbOVLcIcPgAY9QZonUrXQDQ3AsufiRgQkNAClaFrMBuEofQKta/LKKJfLUN4sFU4TVOiK+g8MW529UQKvOKx+uBalzi/nORgsDO6s9v83DSSFYhbIc1+gGQQ88YhMuWsChtzN6JpiLz027XCuH0+hRJwUmQwkc1nWhEUvFD/LYHQKcNtysGiz93VX0f4PWv8OFRqL2ksAOgZxCVawqsje86+I/CjKxxYWbqA+lISa7iasmvw4zGP3FjjSQ7YI7HR2D30c7FGK4P3QeyOrZU/+wmVABngTRIrp2AfTCKYNekxpfNiMqU40lGT7Zba+GIHqUcRUIZod4TFRm+mcfk/SalRsCMYoLFxlCj83Gbx43X0ONOVe5fHhh7g=

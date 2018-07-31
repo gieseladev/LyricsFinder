@@ -27,7 +27,8 @@ class Animelyrics(LyricsExtractor):
         bs = url_data.bs
         title = bs.select_one("div ~ h1").string
         artist = bs.find(text=ARTIST_MATCHER)
-        artist = ARTIST_MATCHER.match(artist).group(1)
+        if artist:
+            artist = ARTIST_MATCHER.match(artist).group(1)
 
         lyrics_window = bs.find("table", attrs={"cellspacing": "0", "border": "0"})
 

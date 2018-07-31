@@ -16,3 +16,11 @@ def test_lyricsfinder():
         pytest.skip("No google api key found (set in \"GOOGLE_API_KEY\" environment variable)")
     lyrics = lyricsfinder.search_lyrics("The A Team", google_api_key=google_api_key)
     assert lyrics
+
+
+def test_extraction():
+    urls = [
+        "http://www.animelyrics.com/anime/haruhi/harehareyukaiemiri.htm"
+    ]
+    for url in urls:
+        lyricsfinder.extract_lyrics(url)

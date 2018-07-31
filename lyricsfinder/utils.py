@@ -1,5 +1,3 @@
-"""Utitlities."""
-
 import re
 from typing import List
 
