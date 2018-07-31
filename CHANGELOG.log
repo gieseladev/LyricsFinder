@@ -1,5 +1,13 @@
+version: 1.2.7-dev;
+-------------------------
+
+changed: switched to README.rst file for PyPi;
+
+=========================
+
 version: 1.2.7;
----
+release: 2018-07-31 21:19;
+-------------------------
 
 added: simple CLI for Lyricsfinder;
 fixed: broken [Lyrical Nonsense](https://www.lyrical-nonsense.com) extractor;
