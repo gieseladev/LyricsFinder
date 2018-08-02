@@ -1,6 +1,7 @@
 version: 1.2.8;
 release: 2018-08-02 19:07;
 -------------------------
+changed[1]: Improved CLI;
 changed: switched to README.rst file for PyPi;
 changed: character **~** is no longer removed from lyrics;
 changed: `Lyrical Nonsense` extractor tries to use non-kanjii name;
