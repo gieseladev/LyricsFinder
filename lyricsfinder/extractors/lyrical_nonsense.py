@@ -25,9 +25,15 @@ class LyricalNonsense(LyricsExtractor):
         if not title_el:
             title_el = bs.select_one("div.titlelyricblocknew h1")
         title = title_el.text
-        artist = bs.select_one("div.artistcontainer h2 a").text
+
+        artist = bs.select_one("div.artistcontainer span.artisttext2new")
+        if not artist:
+            artist = bs.select_one("div.artistcontainer h2")
+
+        artist = artist.text
 
         lyrics_window = bs.select_one("div#Romaji div.olyrictext") or bs.select_one("div#Lyrics div.olyrictext")
         lyrics = utils.clean_lyrics(lyrics_window.text)
+        print(lyrics)
 
         return Lyrics(title, lyrics, artist=artist)

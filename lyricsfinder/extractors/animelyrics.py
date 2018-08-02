@@ -25,7 +25,7 @@ class Animelyrics(LyricsExtractor):
     def extract_lyrics(cls, url_data):
         """Extract lyrics."""
         bs = url_data.bs
-        title = bs.select_one("div ~ h1").string
+        title = next(bs.select_one("div ~ h1").children).string.strip()
         artist = bs.find(text=ARTIST_MATCHER)
         if artist:
             artist = ARTIST_MATCHER.match(artist).group(1)

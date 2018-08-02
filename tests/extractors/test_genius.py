@@ -4,7 +4,7 @@ from pathlib import Path
 from lyricsfinder.extractors.genius import Genius
 from lyricsfinder.utils import UrlData
 
-lyrics_text = Path("tests/extractors/genius-ed_sheeran-the_a_team.txt").read_text("utf-8")
+lyrics_text = Path("tests/data/lyrics/genius-ed_sheeran-the_a_team.txt").read_text("utf-8")
 
 
 class TestGenius:
