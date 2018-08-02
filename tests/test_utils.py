@@ -15,7 +15,7 @@ def test_url_data():
 
 
 def test_cleaner():
-    pre = "    [allowed]|hey\n\n\nthere(test)    \n\tcool\r\ntest ! "
+    pre = "    [allowed]|hey\n\n\nthere(test~～)    \n\tcool\r\ntest ! "
     clean = utils.clean_lyrics(pre)
 
-    assert clean == "[allowed]hey\n\nthere(test)\ncool\ntest !"
+    assert clean == "[allowed]hey\n\nthere(test~~)\ncool\ntest !"
