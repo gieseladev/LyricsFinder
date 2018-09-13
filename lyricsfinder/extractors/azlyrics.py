@@ -1,7 +1,7 @@
 import logging
 import re
 
-from lyricsfinder import Lyrics
+from lyricsfinder import Lyrics, NoLyrics
 from lyricsfinder.extractor import LyricsExtractor
 from lyricsfinder.utils import Request
 
@@ -19,6 +19,9 @@ class AZLyrics(LyricsExtractor):
         bs = await request.bs
 
         center = bs.body.find("div", {"class": "col-xs-12 col-lg-8 text-center"})
+        if not center:
+            raise NoLyrics
+
         lyrics = center.find("div", {"class": None}).text
 
         lyrics = re.sub(r"<br>", " ", lyrics)

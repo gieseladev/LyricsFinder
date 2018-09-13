@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from lyricsfinder import Lyrics
+from lyricsfinder import Lyrics, NoLyrics
 from lyricsfinder.extractor import LyricsExtractor
 from lyricsfinder.utils import Request
 
@@ -17,7 +17,11 @@ class Genius(LyricsExtractor):
     async def extract_lyrics(cls, request: Request) -> Lyrics:
         bs = await request.bs
 
-        lyrics_window = bs.find_all("div", {"class": "lyrics"})[0]
+        lyrics_window = bs.find_all("div", {"class": "lyrics"})
+        if not lyrics_window:
+            raise NoLyrics
+
+        lyrics_window = lyrics_window[0]
         lyrics = lyrics_window.text.strip()
 
         title = bs.find("h1", attrs={"class": "header_with_cover_art-primary_info-title"}).text
