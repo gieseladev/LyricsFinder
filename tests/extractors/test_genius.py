@@ -1,10 +1,11 @@
 from datetime import datetime
 from pathlib import Path
 
+import pytest
+from aiohttp import ClientSession
+
 from lyricsfinder.extractors.genius import Genius
 from lyricsfinder.utils import Request
-from aiohttp import ClientSession
-import pytest
 
 lyrics_text = Path("tests/data/lyrics/genius-ed_sheeran-the_a_team.txt").read_text("utf-8")
 

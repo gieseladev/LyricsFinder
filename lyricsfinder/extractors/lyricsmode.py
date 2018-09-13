@@ -13,7 +13,7 @@ class Lyricsmode(LyricsExtractor):
     display_url = "lyricsmode.com"
 
     @classmethod
-    async def extract_lyrics(cls, request:Request) -> Lyrics:
+    async def extract_lyrics(cls, request: Request) -> Lyrics:
         bs = await request.bs
         lyrics_window = bs.find_all("p", {"id": "lyrics_text", "class": "ui-annotatable"})[0]
         lyrics = lyrics_window.text

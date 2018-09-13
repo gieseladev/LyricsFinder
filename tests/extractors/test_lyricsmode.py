@@ -1,9 +1,11 @@
 import hashlib
 
-from lyricsfinder.extractors.lyricsmode import Lyricsmode
-from lyricsfinder.utils import Request
 import pytest
 from aiohttp import ClientSession
+
+from lyricsfinder.extractors.lyricsmode import Lyricsmode
+from lyricsfinder.utils import Request
+
 
 class TestLyricsMode:
     @pytest.mark.asyncio

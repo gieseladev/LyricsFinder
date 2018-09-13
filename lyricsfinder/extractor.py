@@ -1,6 +1,6 @@
+import abc
 import logging
 from typing import TYPE_CHECKING
-import abc
 
 from .utils import Request
 

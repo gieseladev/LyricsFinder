@@ -1,10 +1,11 @@
 import hashlib
+import os
+
+import pytest
+from aiohttp import ClientSession
 
 from lyricsfinder.extractors.azlyrics import AZLyrics
 from lyricsfinder.utils import Request
-import pytest
-from aiohttp import ClientSession
-import os
 
 
 class TestAZLyrics:

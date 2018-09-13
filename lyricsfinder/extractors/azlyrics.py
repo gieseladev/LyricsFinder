@@ -14,7 +14,7 @@ class AZLyrics(LyricsExtractor):
     display_url = "azlyrics.com"
 
     @classmethod
-    async def extract_lyrics(cls, request:Request) -> Lyrics:
+    async def extract_lyrics(cls, request: Request) -> Lyrics:
         request.headers = {"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0"}
         bs = await request.bs
 
