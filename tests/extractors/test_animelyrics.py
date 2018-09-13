@@ -1,18 +1,25 @@
 import hashlib
 from pathlib import Path
 
+import pytest
+from aiohttp import ClientSession
+
 from lyricsfinder.extractors.animelyrics import Animelyrics
-from lyricsfinder.utils import UrlData
+from lyricsfinder.utils import Request
 
 lyrics_text = Path("tests/data/lyrics/animelyrics-yasuna-fnknhnh.txt").read_text("utf-8")
 
 
 class TestAnimeLyrics:
-    def test_can_handle(self):
-        assert Animelyrics.can_handle(UrlData("http://www.animelyrics.com/anime/swimminganime/splashfree.htm"))
+    @pytest.mark.asyncio
+    async def test_can_handle(self):
+        async with ClientSession() as session:
+            assert await Animelyrics.can_handle(Request(session, "http://www.animelyrics.com/anime/swimminganime/splashfree.htm")) is True
 
-    def test_translated_extraction(self):
-        lyrics = Animelyrics.extract_lyrics(UrlData("http://www.animelyrics.com/anime/swimminganime/splashfree.htm"))
+    @pytest.mark.asyncio
+    async def test_translated_extraction(self):
+        async with ClientSession() as session:
+            lyrics = await Animelyrics.extract_lyrics(Request(session, "http://www.animelyrics.com/anime/swimminganime/splashfree.htm"))
 
         lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
 
@@ -20,14 +27,17 @@ class TestAnimeLyrics:
         assert lyrics.title == "SPLASH FREE"
         assert lyrics.artist == "STYLE FIVE"
 
-        lyrics = Animelyrics.extract_lyrics(UrlData("http://www.animelyrics.com/anime/kmb/fnknhnh.htm"))
+        async with ClientSession() as session:
+            lyrics = await Animelyrics.extract_lyrics(Request(session, "http://www.animelyrics.com/anime/kmb/fnknhnh.htm"))
 
         assert lyrics.title == "Futari no Kimochi no Honto no Himitsu"
         assert lyrics.artist == "Yasuna"
         assert lyrics.lyrics == lyrics_text
 
-    def test_untranslated_extraction(self):
-        lyrics = Animelyrics.extract_lyrics(UrlData("https://www.animelyrics.com/anime/accelworld/chasetheworld.htm"))
+    @pytest.mark.asyncio
+    async def test_untranslated_extraction(self):
+        async with ClientSession() as session:
+            lyrics = await Animelyrics.extract_lyrics(Request(session, "https://www.animelyrics.com/anime/accelworld/chasetheworld.htm"))
 
         lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
 

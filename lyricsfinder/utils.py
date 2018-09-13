@@ -1,23 +1,23 @@
+import logging
 import re
-from typing import List
+from typing import AsyncIterator, NamedTuple
 
-import requests
+from aiohttp import ClientResponse, ClientSession
 from bs4 import BeautifulSoup
-from requests import Response
+
+log = logging.getLogger(__name__)
 
 
-class UrlData:
-    """Url stuff."""
+class Request:
+    def __init__(self, session: ClientSession, url: str):
+        self.session = session
 
-    def __init__(self, url: str):
-        """Build url."""
-        self.url = url
+        self._url = url
+        self.resp_kwargs = {}
         self.headers = {}
 
-        self.html_parser = "html.parser"
-
         self._resp = None
-        self._html = None
+        self._text = None
         self._bs = None
 
     def __repr__(self) -> str:
@@ -25,58 +25,70 @@ class UrlData:
         return "<{}>".format(self.url)
 
     @property
-    def resp(self) -> Response:
-        """Get the requests response object."""
+    def url(self) -> str:
+        return self._url
+
+    @url.setter
+    def url(self, value: str):
+        self._url = value
+        self._resp = None
+        self._text = None
+        self._bs = None
+
+    @property
+    async def resp(self) -> ClientResponse:
         if not self._resp:
-            self._resp = requests.get(self.url, headers=self.headers)
+            self._resp = await self.session.get(self.url, headers=self.headers, **self.resp_kwargs)
         return self._resp
 
     @property
-    def html(self) -> str:
-        """Get the html for this url."""
-        if not self._html:
-            self._html = self.resp.text
-        return self._html
+    async def text(self) -> str:
+        if not self._text:
+            self._text = await (await self.resp).text()
+        return self._text
 
     @property
-    def bs(self) -> BeautifulSoup:
-        """Get the BeautifulSoup object."""
+    async def bs(self) -> BeautifulSoup:
         if not self._bs:
-            self._bs = BeautifulSoup(self.html, self.html_parser)
+            self._bs = BeautifulSoup(await self.text, "lxml")
         return self._bs
 
 
-def search(query: str, api_key: str) -> List:
-    """Return search results."""
+class GoogleSearchItem(NamedTuple):
+    link: str
+
+
+async def google_search(session: ClientSession, query: str, api_key: str) -> AsyncIterator[GoogleSearchItem]:
+    item_count = 10
+
     params = {
+        "q": query,
         "key": api_key,
         "cx": "002017775112634544492:7y5bpl2sn78",
-        "q": query
+        "fields": "items(link)",
+        "num": item_count
     }
-    resp = requests.get("https://www.googleapis.com/customsearch/v1", params=params)
-    data = resp.json()
-    items = data.get("items", [])
-    return items
 
-
-def safe_filename(name: str, file_ending: str = ".json") -> str:
-    """Return a safe version of name + file_type."""
-    filename = re.sub(r"\s+", "_", name)
-    filename = re.sub(r"\W+", "-", filename)
-
-    return filename.lower().strip() + file_ending
+    for start in range(1, 101, item_count):
+        params["start"] = start
+        log.debug(f"getting search results starting from {start}")
+        async with session.get("https://www.googleapis.com/customsearch/v1", params=params) as resp:
+            data = await resp.json()
+            items = data.get("items", [])
+            for item in items:
+                yield GoogleSearchItem(**item)
 
 
 RE_CHAR_COLLAPSERS = [
-    (r"～", "~")
+    (r"～", "~"),
+    (r"[“”]", "\"")
 ]
 
 
 def clean_lyrics(lyrics: str, *, allowed: str = "") -> str:
-    """Perform some simple operations to clean the lyrics."""
     lyrics = lyrics.strip()
-    for target, repl in RE_CHAR_COLLAPSERS:
-        lyrics = re.sub(target, repl, lyrics)
+    for target, replacement in RE_CHAR_COLLAPSERS:
+        lyrics = re.sub(target, replacement, lyrics)
 
     lyrics = re.sub(rf"[^\w\[\]()/ \"',.:\-~\n?!{allowed}]+", "", lyrics)  # remove unwanted characters
     lyrics = re.sub(r" +", " ", lyrics)  # reduce to one space only

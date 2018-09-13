@@ -1,27 +1,34 @@
 import hashlib
 from pathlib import Path
 
+import pytest
+from aiohttp import ClientSession
+
 from lyricsfinder.extractors.lyrical_nonsense import LyricalNonsense
-from lyricsfinder.utils import UrlData
+from lyricsfinder.utils import Request
 
 lyrics_sisters_umarun_taisou = Path("tests/data/lyrics/lyrical_nonsense-sisters-umarun_taisou.txt").read_text("utf-8")
+lyrics_radwimps_zenzenzense = Path("tests/data/lyrics/lyrical_nonsense-radwimps-zenzenzense.txt").read_text("utf-8")
 
 
 class TestLyricalNonsense:
-    def test_can_handle(self):
-        assert LyricalNonsense.can_handle(UrlData("http://www.lyrical-nonsense.com/lyrics/radwimps/zen-zen-zense/"))
+    @pytest.mark.asyncio
+    async def test_can_handle(self):
+        async with ClientSession() as session:
+            assert await LyricalNonsense.can_handle(Request(session, "http://www.lyrical-nonsense.com/lyrics/radwimps/zen-zen-zense/")) is True
 
-    def test_extraction(self):
-        lyrics = LyricalNonsense.extract_lyrics(UrlData("http://www.lyrical-nonsense.com/lyrics/radwimps/zen-zen-zense/"))
+    @pytest.mark.asyncio
+    async def test_extraction(self):
+        async with ClientSession() as session:
+            lyrics = await LyricalNonsense.extract_lyrics(Request(session, "http://www.lyrical-nonsense.com/lyrics/radwimps/zen-zen-zense/"))
 
-        lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
-
-        assert lyrics_hash == "99609e2457822377533f393eddf6c8e562d84bd376597a7272991f054c3d786c"
         assert lyrics.title == "Zenzenzense"
         assert lyrics.artist == "RADWIMPS"
+        assert lyrics.lyrics == lyrics_radwimps_zenzenzense
 
-        lyrics = LyricalNonsense.extract_lyrics(
-            UrlData("https://www.lyrical-nonsense.com/lyrics/himouto-umaru-chan-r-theme-songs/umarun-taisou-sisters/"))
+        async with ClientSession() as session:
+            lyrics = await LyricalNonsense.extract_lyrics(
+                Request(session, "https://www.lyrical-nonsense.com/lyrics/himouto-umaru-chan-r-theme-songs/umarun-taisou-sisters/"))
 
         assert lyrics.title == "Umarun Taisou"
         assert lyrics.artist == "SisterS"
