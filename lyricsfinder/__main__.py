@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
+import asyncio
 import json
+import textwrap
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
-import textwrap
 from typing import Any
 
 import lyricsfinder
@@ -101,12 +102,12 @@ def search(args: Namespace):
         config_set("google_api_key", api_key)
 
     query = " ".join(args.query)
-    lyrics = next(lyricsfinder.search_lyrics(query, google_api_key=api_key), None)
+    lyrics = asyncio.run(lyricsfinder.search_lyrics(query, api_key=api_key).__anext__())
     print_lyrics(lyrics)
 
 
 def extract(args: Namespace):
-    lyrics = lyricsfinder.extract_lyrics(args.url)
+    lyrics = asyncio.run(lyricsfinder.extract_lyrics(args.url))
     print_lyrics(lyrics)
 
 

@@ -1,14 +1,13 @@
-"""Extractor for Musixmatch.com."""
-
 import logging
 import re
 from datetime import datetime
 
-from requests.exceptions import HTTPError
+from aiohttp import ClientResponseError
 
-from ..extractor import LyricsExtractor
+from lyricsfinder import Lyrics
+from lyricsfinder.extractor import LyricsExtractor
+from lyricsfinder.utils import Request
 from ..models import exceptions
-from ..models.lyrics import Lyrics
 
 log = logging.getLogger(__name__)
 
@@ -16,21 +15,18 @@ ORDINAL_MATCHER = re.compile(r"(\d{1,2})(st|nd|rd|th)")
 
 
 class MusixMatch(LyricsExtractor):
-    """Class for extracting lyrics."""
-
     name = "MusixMatch"
     url = "https://www.musixmatch.com/"
     display_url = "musixmatch.com"
 
     @classmethod
-    def extract_lyrics(cls, url_data):
-        """Extract lyrics."""
-        url_data.headers = {"user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"}
+    async def extract_lyrics(cls, request: Request) -> Lyrics:
+        request.headers = {"user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1"}
         try:
-            url_data.resp.raise_for_status()
-        except HTTPError:
+            (await request.resp).raise_for_status()
+        except ClientResponseError:
             raise exceptions.NotAllowedError
-        bs = url_data.bs
+        bs = await request.bs
 
         if bs.find_all("div", attrs={"class": "mxm-empty-state", "data-reactid": "87"}):
             raise exceptions.NoLyrics

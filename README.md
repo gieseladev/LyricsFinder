@@ -10,7 +10,7 @@ LyricsFinder is a modular and easily expandable Python Package that is used to e
 
 ### Requirements
 
-- **Python 3.6+** with `pip`
+- **Python 3.7+** with `pip`
 
 - **[Strongly Recommended]:** A [Google Developer API Key](https://console.developers.google.com/projectselector/apis/library/customsearch.googleapis.com/) with the 'Custom Search' API enabled. This link should take one there once logged in.
 
