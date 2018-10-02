@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 
 from . import extractors
 from .extractor import LyricsExtractor
-from .models import Lyrics, LyricsOrigin, exceptions
+from .models import Lyrics, LyricsOrigin, SearchResult, exceptions
 from .utils import Request, google_search
 
 log = logging.getLogger(__name__)
@@ -17,7 +17,6 @@ class LyricsManager:
 
     @classmethod
     def setup(cls):
-        """Load extractors."""
         log.debug("setting up")
         extractors.load_extractors()
 
@@ -67,20 +66,15 @@ class LyricsManager:
             raise exceptions.NoExtractorError(url) from exc
 
     @classmethod
-    async def search_lyrics(cls, query: str, *, api_key: str, session: ClientSession = None) -> AsyncIterator[Lyrics]:
-
+    async def search_lyrics_url_gen(cls, query: str, *, api_key: str, session: ClientSession = None) -> AsyncIterator[str]:
         async with cls.get_session(session) as session:
             result_iter = google_search(session, query, api_key)
 
             async for result in result_iter:
                 url = result.link
-                try:
-                    lyrics = await cls.extract_lyrics(url)
-                except exceptions.NoExtractorError:
-                    log.warning(f"No extractor for url {url}")
-                    continue
-                else:
-                    lyrics.origin.query = query
-                    yield lyrics
+                yield url
 
-        log.warning("No lyrics found for query \"{}\"".format(query))
+    @classmethod
+    def search_lyrics(cls, query: str, *, api_key: str, session: ClientSession = None) -> SearchResult:
+        url_iter = cls.search_lyrics_url_gen(query, api_key=api_key, session=session)
+        return SearchResult(cls, session, url_iter, query)

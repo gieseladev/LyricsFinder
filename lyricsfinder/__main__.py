@@ -15,7 +15,7 @@ config_location = Path.home() / ".lyricsfinder"
 _config = None
 
 
-def load_config():
+def load_config() -> None:
     global _config
 
     if not config_location.is_file():
@@ -52,7 +52,7 @@ def config_get(key: str, default=_DEFAULT) -> Any:
     return value
 
 
-def config_set(key: str, value: Any, *, flush=True):
+def config_set(key: str, value: Any, *, flush=True) -> None:
     global _config
 
     if not _config:
@@ -66,7 +66,7 @@ def config_set(key: str, value: Any, *, flush=True):
         save_config()
 
 
-def print_lyrics(lyrics: lyricsfinder.Lyrics):
+def print_lyrics(lyrics: lyricsfinder.Lyrics) -> None:
     if not lyrics:
         return
 
@@ -92,7 +92,11 @@ def print_lyrics(lyrics: lyricsfinder.Lyrics):
     print(text)
 
 
-def search(args: Namespace):
+async def _search_first(query: str, api_key: str) -> lyricsfinder.Lyrics:
+    return await lyricsfinder.search_lyrics(query, api_key=api_key)
+
+
+def search(args: Namespace) -> None:
     api_key = args.token
     if api_key is None:
         api_key = config_get("google_api_key", None)
@@ -102,16 +106,16 @@ def search(args: Namespace):
         config_set("google_api_key", api_key)
 
     query = " ".join(args.query)
-    lyrics = asyncio.run(lyricsfinder.search_lyrics(query, api_key=api_key).__anext__())
+    lyrics = asyncio.run(_search_first(query, api_key=api_key))
     print_lyrics(lyrics)
 
 
-def extract(args: Namespace):
+def extract(args: Namespace) -> None:
     lyrics = asyncio.run(lyricsfinder.extract_lyrics(args.url))
     print_lyrics(lyrics)
 
 
-def main(*args):
+def main(*args) -> None:
     args = args or None
 
     parser = ArgumentParser("lyricsfinder", description="Find the lyrics you've always wanted to find")
