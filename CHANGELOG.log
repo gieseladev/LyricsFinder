@@ -1,8 +1,9 @@
-version: 1.3.0;
-release: unreleased;
+version: 2.0.0;
+release: 2018-10-02 11:17;
 -------------------------
-changed[1]: Ported to asyncio using aiohttp instead of requests;
+changed[2]: Ported to asyncio using aiohttp instead of requests;
 changed: Using LXML parser instead of html.parser;
+changed: Improved Lyricsmode extractor;
 
 =========================
 
