@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from .utils import Request
 
 if TYPE_CHECKING:
-    from .lyrics_manager import Lyrics
+    from .manager import Lyrics
 
 log = logging.getLogger(__name__)
 

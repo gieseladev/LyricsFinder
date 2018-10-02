@@ -15,7 +15,7 @@ async def test_lyricsfinder():
     google_api_key = os.environ.get("GOOGLE_API_KEY")
     if not google_api_key:
         pytest.skip("No google api key found (set in \"GOOGLE_API_KEY\" environment variable)")
-    lyrics = await lyricsfinder.search_lyrics("The A Team", api_key=google_api_key).__anext__()
+    lyrics = await lyricsfinder.search_lyrics("The A Team", api_key=google_api_key)
     assert lyrics
 
 

@@ -1,3 +1,12 @@
+version: 2.1.0;
+release: 2018-10-02 12:34;
+-------------------------
+changed: >
+    `search_lyrics` returns `SearchResult` instead of an async iterator. `SearchResult` provides some extra features like
+    getting a list of all the search results;
+
+=========================
+
 version: 2.0.0;
 release: 2018-10-02 11:17;
 -------------------------
