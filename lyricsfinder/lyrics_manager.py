@@ -1,81 +1,86 @@
-import importlib
 import logging
-from typing import Iterator, List
+from contextlib import asynccontextmanager
+from typing import AsyncIterator, List
 
+from aiohttp import ClientSession
+
+from . import extractors
 from .extractor import LyricsExtractor
 from .models import Lyrics, LyricsOrigin, exceptions
-from .utils import UrlData, search
+from .utils import Request, google_search
 
 log = logging.getLogger(__name__)
 
 
 class LyricsManager:
-    """Manage stuff."""
-
     extractors: List[LyricsExtractor] = []
-
-    google_api_key: str = None
 
     @classmethod
     def setup(cls):
         """Load extractors."""
         log.debug("setting up")
-        importlib.import_module(".extractors", package=__package__)
+        extractors.load_extractors()
+
         cls.extractors = LyricsExtractor.extractors
         log.info("loaded {} extractors".format(len(cls.extractors)))
 
     @classmethod
-    def extract_lyrics(cls, url: str) -> Lyrics:
-        """Extract lyrics from url."""
-        exc = None
+    @asynccontextmanager
+    async def get_session(cls, session: ClientSession = None) -> ClientSession:
+        if session:
+            yield session
+        else:
+            async with ClientSession() as session:
+                yield session
 
-        log.info("extracting lyrics from url \"{}\"".format(url))
-        url_data = UrlData(url)
+    @classmethod
+    async def extract_lyrics(cls, url: str, *, session: ClientSession = None) -> Lyrics:
+        async with cls.get_session(session) as session:
+            exc = None
 
-        for extractor in cls.extractors:
-            if extractor.can_handle(url_data):
-                log.debug("using {} for {}".format(extractor, url_data))
+            log.info("extracting lyrics from url \"{url}\"")
+            request = Request(session, url)
+
+            for extractor in cls.extractors:
+                if not await extractor.can_handle(request):
+                    continue
+
+                log.debug(f"using {extractor} for {request}")
                 try:
-                    lyrics = extractor.extract_lyrics(url_data)
+                    lyrics = await extractor.extract_lyrics(request)
                 except exceptions.NoLyrics:
-                    log.warning("{} didn't find any lyrics at {}".format(extractor, url))
+                    log.warning(f"{extractor} didn't find any lyrics at {url}")
                     continue
                 except exceptions.NotAllowedError:
-                    log.warning("{} couldn't access lyrics at {}".format(extractor, url))
+                    log.warning(f"{extractor} couldn't access lyrics at {url}")
                     continue
                 except Exception as e:
                     e.__cause__ = exc
                     exc = e
-                    log.exception("Something went wrong when {} handled {}".format(extractor, url_data))
+                    log.exception(f"Something went wrong when {extractor} handled {request}")
                     continue
                 else:
                     lyrics.set_origin(LyricsOrigin(url, extractor.name, extractor.url))
-                    log.debug("extracted lyrics {}".format(lyrics))
+                    log.debug(f"extracted lyrics {lyrics}")
                     return lyrics
-        raise exceptions.NoExtractorError(url) from exc
+
+            raise exceptions.NoExtractorError(url) from exc
 
     @classmethod
-    def search_lyrics(cls, query: str, *, google_api_key: str = None) -> Iterator[Lyrics]:
-        """Search the net for lyrics."""
-        if not google_api_key:
-            if cls.google_api_key:
-                google_api_key = cls.google_api_key
-            else:
-                raise TypeError("search requires \"google_api_key\" to be present!")
+    async def search_lyrics(cls, query: str, *, api_key: str, session: ClientSession = None) -> AsyncIterator[Lyrics]:
 
-        results = search(query, google_api_key)
-        log.debug("got {} results".format(len(results)))
-        for result in results:
-            url = result["link"]
-            try:
-                lyrics = cls.extract_lyrics(url)
-            except exceptions.NoExtractorError:
-                log.warning("No extractor for url {}".format(url))
-                continue
-            else:
-                lyrics.origin.query = query
-                yield lyrics
+        async with cls.get_session(session) as session:
+            result_iter = google_search(session, query, api_key)
+
+            async for result in result_iter:
+                url = result.link
+                try:
+                    lyrics = await cls.extract_lyrics(url)
+                except exceptions.NoExtractorError:
+                    log.warning(f"No extractor for url {url}")
+                    continue
+                else:
+                    lyrics.origin.query = query
+                    yield lyrics
+
         log.warning("No lyrics found for query \"{}\"".format(query))
-
-
-LyricsManager.setup()

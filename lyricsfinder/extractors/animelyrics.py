@@ -1,13 +1,9 @@
-"""Extractor for animelyrics.com."""
-
 import logging
 import re
 
-import requests
-
-from ..extractor import LyricsExtractor
-from ..models import exceptions
-from ..models.lyrics import Lyrics
+from lyricsfinder import Lyrics, NoLyrics
+from lyricsfinder.extractor import LyricsExtractor
+from lyricsfinder.utils import Request
 
 log = logging.getLogger(__name__)
 
@@ -15,16 +11,13 @@ ARTIST_MATCHER = re.compile(r"^Performed by ([\w' ]+)\b", re.MULTILINE)
 
 
 class Animelyrics(LyricsExtractor):
-    """Class for extracting lyrics."""
-
     name = "Animelyrics"
     url = "http://www.animelyrics.com/"
     display_url = "animelyrics.com"
 
     @classmethod
-    def extract_lyrics(cls, url_data):
-        """Extract lyrics."""
-        bs = url_data.bs
+    async def extract_lyrics(cls, request: Request) -> Lyrics:
+        bs = await request.bs
         title = next(bs.select_one("div ~ h1").children).string.strip()
         artist = bs.find(text=ARTIST_MATCHER)
         if artist:
@@ -47,13 +40,16 @@ class Animelyrics(LyricsExtractor):
                     lyrics += p.span.text
             lyrics = lyrics.strip()
         else:
-            raw = requests.get(re.sub(r"\.html?", ".txt", url_data.url), allow_redirects=False)
-            content = raw.text.strip()
+            text_url = re.sub(r"\.html?", ".txt", request.url)
+            request.url = text_url
+            request.resp_kwargs["allow_redirects"] = False
+            text = await request.text
+            content = text.strip()
             match = re.search(r"-{10,}(.+?)-{10,}", content, flags=re.DOTALL)
             if match:
                 lyrics = match.group(1).strip()
             else:
-                raise exceptions.NoLyrics
+                raise NoLyrics
 
         lyrics = lyrics.replace("\xa0", " ").replace("\r", "")
 

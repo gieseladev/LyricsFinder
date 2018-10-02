@@ -1,26 +1,20 @@
-"""Extractor for lyrical-nonsense.com."""
-
 import logging
 
-from .. import utils
-from ..extractor import LyricsExtractor
-from ..models.lyrics import Lyrics
-from ..utils import UrlData
+from lyricsfinder import Lyrics
+from lyricsfinder.extractor import LyricsExtractor
+from lyricsfinder.utils import Request, clean_lyrics
 
 log = logging.getLogger(__name__)
 
 
 class LyricalNonsense(LyricsExtractor):
-    """Class for extracting lyrics."""
-
     name = "Lyrical Nonsense"
     url = "http://www.lyrical-nonsense.com/"
     display_url = "lyrical-nonsense.com"
 
     @classmethod
-    def extract_lyrics(cls, url_data: UrlData) -> Lyrics:
-        """Extract lyrics."""
-        bs = url_data.bs
+    async def extract_lyrics(cls, url_data: Request) -> Lyrics:
+        bs = await url_data.bs
         title_el = bs.select_one("span.titletext2new")
         if not title_el:
             title_el = bs.select_one("div.titlelyricblocknew h1")
@@ -33,7 +27,7 @@ class LyricalNonsense(LyricsExtractor):
         artist = artist.text
 
         lyrics_window = bs.select_one("div#Romaji div.olyrictext") or bs.select_one("div#Lyrics div.olyrictext")
-        lyrics = utils.clean_lyrics(lyrics_window.text)
-        print(lyrics)
+        text = "\n\n".join(tag.text for tag in lyrics_window.find_all("p"))
+        lyrics = clean_lyrics(text)
 
         return Lyrics(title, lyrics, artist=artist)

@@ -1,8 +1,8 @@
-[![PyPI](https://img.shields.io/pypi/v/lyricsfinder.svg)](https://pypi.python.org/pypi/lyricsfinder)
+[![PyPI](https://img.shields.io/pypi/v/lyricsfinder.svg?longCache=false)](https://pypi.python.org/pypi/lyricsfinder)
 [![Build Status](https://travis-ci.org/GieselaDev/LyricsFinder.svg?branch=master)](https://travis-ci.org/GieselaDev/LyricsFinder)
 [![codecov](https://codecov.io/gh/GieselaDev/LyricsFinder/branch/master/graph/badge.svg)](https://codecov.io/gh/GieselaDev/LyricsFinder)
-[![GitHub license](https://img.shields.io/github/license/GieselaDev/LyricsFinder.svg)](https://pypi.python.org/pypi/lyricsfinder)
-[![Python Versions](https://img.shields.io/pypi/pyversions/lyricsfinder.svg)](https://pypi.python.org/pypi/lyricsfinder)
+[![GitHub license](https://img.shields.io/github/license/GieselaDev/LyricsFinder.svg?longCache=false)](https://pypi.python.org/pypi/lyricsfinder)
+[![Python Versions](https://img.shields.io/badge/python-3.6,_3.7-blue.svg?longCache=false)](https://pypi.python.org/pypi/lyricsfinder)
 
 # LyricsFinder
 

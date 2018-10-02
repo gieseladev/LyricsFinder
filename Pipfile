@@ -4,11 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+aiohttp = "*"
 "beautifulsoup4" = "*"
-requests = "*"
+lxml = "*"
 
 [dev-packages]
 pytest = "*"
+pytest-asyncio = "*"
 
 [requires]
 python_version = "3.7"
