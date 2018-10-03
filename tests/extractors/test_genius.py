@@ -1,18 +1,27 @@
-# flake8: noqa
-import hashlib
+from datetime import datetime
+from pathlib import Path
+
+import pytest
+from aiohttp import ClientSession
 
 from lyricsfinder.extractors.genius import Genius
-from lyricsfinder.utils import UrlData
+from lyricsfinder.utils import Request
+
+lyrics_text = Path("tests/data/lyrics/genius-ed_sheeran-the_a_team.txt").read_text("utf-8")
 
 
 class TestGenius:
-    def test_can_handle(self):
-        assert Genius.can_handle(UrlData("https://genius.com/Ed-sheeran-the-a-team-lyrics"))
+    @pytest.mark.asyncio
+    async def test_can_handle(self):
+        async with ClientSession() as session:
+            assert await Genius.can_handle(Request(session, "https://genius.com/Ed-sheeran-the-a-team-lyrics")) is True
 
-    def test_extraction(self):
-        lyrics = Genius.extract_lyrics(UrlData("https://genius.com/Ed-sheeran-the-a-team-lyrics"))
+    @pytest.mark.asyncio
+    async def test_extraction(self):
+        async with ClientSession() as session:
+            lyrics = await Genius.extract_lyrics(Request(session, "https://genius.com/Ed-sheeran-the-a-team-lyrics"))
 
-        lyrics_hash = hashlib.sha256(lyrics.lyrics.encode("utf-8")).hexdigest()
-
-        assert lyrics_hash == "8f2f9910ef8053c3b98a97c632f8ed44585b659816db94670541e3f24ca24f58"
+        assert lyrics.lyrics == lyrics_text
         assert lyrics.title == "The A Team"
+        assert lyrics.artist == "Ed Sheeran"
+        assert lyrics.release_date == datetime(2011, 6, 12)

@@ -1,21 +1,18 @@
-# flake8: noqa
-
-import hashlib
 import inspect
-import json
-import os
-import tempfile
 from contextlib import suppress
-from io import StringIO
+from datetime import datetime
 
-from lyricsfinder.models import Lyrics, LyricsOrigin, exceptions
+import pytest
+
+import lyricsfinder
+from lyricsfinder.models import Lyrics, LyricsOrigin, SearchResult, exceptions
 
 
-def _comp_lyrics(before, after):
+def _comp_lyrics(before: Lyrics, after: Lyrics):
     assert before.title == after.title
+    assert before.artist == after.artist
+    assert before.release_date == after.release_date
     assert before.lyrics == after.lyrics
-    assert before.timestamp == after.timestamp
-    assert before.save_name == after.save_name
     assert before.origin.url == after.origin.url
     assert before.origin.source_name == after.origin.source_name
     assert before.origin.source_url == after.origin.source_url
@@ -23,25 +20,10 @@ def _comp_lyrics(before, after):
 
 
 def test_lyrics():
-    lyrics = Lyrics("lyrics title", "these are the lyrics", origin=LyricsOrigin("giesela.org/no_lyrics", "Giesela", "giesela.org", query="giesela lyrics"))
-    assert lyrics.save_name == "giesela_lyrics.json"
-    f = lyrics.save(StringIO())
-    after_data = json.load(f)
-    after_lyrics = Lyrics.from_dict(after_data)
+    lyrics = Lyrics("lyrics title", "these are the lyrics", artist="Giesela", release_date=datetime(2008, 12, 16),
+                    origin=LyricsOrigin("giesela.org/lyrics", "Giesela", "giesela.org", query="giesela lyrics"))
+    after_lyrics = Lyrics.from_dict(lyrics.to_dict())
     _comp_lyrics(lyrics, after_lyrics)
-
-
-def test_save_lyrics():
-    lyrics = Lyrics("lyrics title", "these are the lyrics", origin=LyricsOrigin("giesela.org/no_lyrics", "Giesela", "giesela.org", query="giesela lyrics"))
-    fd, name = tempfile.mkstemp(text=True)
-    try:
-        lyrics.save(name).close()
-        with open(name) as f:
-            data = json.load(f)
-        after_lyrics = Lyrics.from_dict(data)
-        _comp_lyrics(lyrics, after_lyrics)
-    finally:
-        os.close(fd)
 
 
 def test_exceptions():
@@ -51,3 +33,18 @@ def test_exceptions():
     for exc_name, exc in all_exceptions:
         with suppress(base):
             raise exc("Test")
+
+
+@pytest.mark.asyncio
+async def test_search_result():
+    async def url_iter():
+        for i in range(10):
+            yield str(i)
+
+    result = SearchResult(lyricsfinder.LyricsManager, None, url_iter(), "Test Query")
+
+    assert await result.next_url() == "0"
+    assert await result.next_url() == "1"
+    assert await result.url_list() == ["2", "3", "4", "5", "6", "7", "8", "9"]
+    assert await result.next_url() is None
+    assert await result.next_url() is None

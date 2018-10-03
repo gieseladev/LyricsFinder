@@ -1,4 +1,7 @@
-.cache
+.cache/
+.idea/
+.pytest_cache/
+venv/
 dist
 
 *.pyc

@@ -1,6 +1,11 @@
-"""Base for extracting."""
-
+import abc
 import logging
+from typing import TYPE_CHECKING
+
+from .utils import Request
+
+if TYPE_CHECKING:
+    from .manager import Lyrics
 
 log = logging.getLogger(__name__)
 
@@ -8,14 +13,15 @@ log = logging.getLogger(__name__)
 class LyricsExtractorMount(type):
     """Registers new Extractors."""
 
-    def __init__(cls, name, bases, attrs):
-        """Add base class to list of extractors."""
+    def __init__(cls, *args):
+        super().__init__(*args)
+
         if not hasattr(cls, "extractors"):
             cls.extractors = []
             log.debug("Created Extractor Meta Class")
         else:
             cls.extractors.append(cls)
-            log.debug("Registered Extractor \"{}\"".format(name))
+            log.debug(f"Registered {cls}")
 
     def __str__(self):
         """Return string rep."""
@@ -23,18 +29,17 @@ class LyricsExtractorMount(type):
 
 
 class LyricsExtractor(metaclass=LyricsExtractorMount):
-    """A class capable of retrieving lyrics."""
-
-    name = "GENERIC"
-    url = "http://giesela.org"
-    display_url = "giesela.org"
+    name: str
+    url: str
+    display_url: str
 
     @classmethod
-    def can_handle(cls, url_data):
+    async def can_handle(cls, url_data: Request) -> bool:
         """Check whether this extractor can extract lyrics from this url."""
         return cls.display_url in url_data.url
 
     @classmethod
-    def extract_lyrics(cls, url_data):
-        """Return a Lyrics object for the given url, html or bs."""
+    @abc.abstractmethod
+    async def extract_lyrics(cls, url_data: Request) -> "Lyrics":
+        """Return a Lyrics object for the given url, text or bs."""
         raise NotImplementedError

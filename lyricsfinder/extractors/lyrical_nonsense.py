@@ -1,27 +1,33 @@
-"""Extractor for lyrical-nonsense.com."""
-
 import logging
 
-from .. import utils
-from ..extractor import LyricsExtractor
-from ..models.lyrics import Lyrics
+from lyricsfinder import Lyrics
+from lyricsfinder.extractor import LyricsExtractor
+from lyricsfinder.utils import Request, clean_lyrics
 
 log = logging.getLogger(__name__)
 
 
 class LyricalNonsense(LyricsExtractor):
-    """Class for extracting lyrics."""
-
     name = "Lyrical Nonsense"
     url = "http://www.lyrical-nonsense.com/"
     display_url = "lyrical-nonsense.com"
 
     @classmethod
-    def extract_lyrics(cls, url_data):
-        """Extract lyrics."""
-        bs = url_data.bs
-        lyrics_window = bs.find_all("div", {"id": "Romaji"})[0] or bs.find_all("div", {"id": "Lyrics"})[0]
-        lyrics = utils.clean_lyrics(lyrics_window.contents[0])
-        title = bs.select("div.titletext2new h3")[0].text.strip()
+    async def extract_lyrics(cls, url_data: Request) -> Lyrics:
+        bs = await url_data.bs
+        title_el = bs.select_one("span.titletext2new")
+        if not title_el:
+            title_el = bs.select_one("div.titlelyricblocknew h1")
+        title = title_el.text
 
-        return Lyrics(title, lyrics)
+        artist = bs.select_one("div.artistcontainer span.artisttext2new")
+        if not artist:
+            artist = bs.select_one("div.artistcontainer h2")
+
+        artist = artist.text
+
+        lyrics_window = bs.select_one("div#Romaji div.olyrictext") or bs.select_one("div#Lyrics div.olyrictext")
+        text = "\n\n".join(tag.text for tag in lyrics_window.find_all("p"))
+        lyrics = clean_lyrics(text)
+
+        return Lyrics(title, lyrics, artist=artist)
